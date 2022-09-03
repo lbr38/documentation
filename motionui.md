@@ -195,10 +195,93 @@ Il est possible de configurer deux types de démarrages et arrêts automatiques 
 - En fonction des plages horaires renseignées pour chaque journée. Le service <b>motion</b> sera alors <b>actif</b> entre la plage d'horaire renseignée.
 - En fonction de la présence d'un ou plusieurs appareils IP connecté(s) sur le réseau local. Si aucun des appareils configurés n'est présent sur le réseau local alors le service motion démarrera, considérant que personne n'est présent au domicile. Motion-UI envoi régulièrement un <b>ping</b> pour déterminer si l'appareil est présent sur le réseau, il faut donc veiller à configurer des baux d'IP statiques depuis la box pour chaque appareil du domicile (smartphones).
 
-(insérer captures)
+<div align="center">
+<a href="https://raw.githubusercontent.com/lbr38/documentation/main/images/motionui/autostart-1.png">
+<img src="https://raw.githubusercontent.com/lbr38/documentation/main/images/motionui/autostart-1.png" width=49% align="top"> 
+</a>
 
+<a href="https://raw.githubusercontent.com/lbr38/documentation/main/images/motionui/autostart-2.png">
+<img src="https://raw.githubusercontent.com/lbr38/documentation/main/images/motionui/autostart-2.png" width=49% align="top"> 
+</a>
+</div> 
 
+<br>
 
 <h2>Configurer les alertes</h2>
+
+La configuration des alertes nécessite trois points de configuration :
+
+- Configurer le client mail <b>mutt</b> pour qu'il puisse envoyer des alertes depuis l'un de vos comptes mail (gmail, etc...)
+- Configurer motion pour qu'il envoie une ou plusieurs alertes selon les <b>déclencheurs</b> désirés
+- Le service <b>motionui</b> doit être démarré
+
+<h3>Configuration de mutt</h3>
+
+Depuis un terminal sur le serveur exécutant motion-UI, créer un nouveau fichier <b>.muttrc</b>. Ce fichier devra être accessible en lecture par l'utilisateur <b>motion</b> :
+
+```
+vim /var/lib/motionui/.muttrc
+```
+
+Insérer la configuration suivante, ici un exemple pour un compte mail @riseup.net :
+
+```
+# Nom de l'expéditeur du message
+set realname = "motion-UI"
+
+# Activer TLS si disponible sur le serveur
+set ssl_starttls=yes
+# Toujours utiliser SSL lors de la connexion à un serveur
+set ssl_force_tls=yes
+
+# Configuration SMTP
+set smtp_url = "smtps://ACCOUNT@riseup.net@mail.riseup.net:465/"
+set smtp_pass = "ACCOUNT_PASSWORD"
+set from = "ACCOUNT@riseup.net"
+set use_envelope_from=yes
+
+# Paramètres locaux, date 
+set date_format="%A %d %b %Y à %H:%M:%S (%Z)"
+
+# Ne pas conserver une copie des mails envoyés
+set copy=no
+```
+
+```
+chown motion:motionui /var/lib/motionui/.muttrc
+```
+
+Depuis l'interface motion-UI :
+
+- Renseigner les <b>créneaux horaires</b> entre lesquels vous souhaitez <b>recevoir des alertes</b> si détection il y a. Pour activer les alertes <b>toute une journée</b>, renseigner 00:00 pour le créneau de début ET de fin (comme sur la capture).
+- Renseigner le chemin vers le <b>fichier de configuration mutt</b>, ainsi que l'adresse mail destinataire qui recevra les alertes mails. Plusieurs adresses mails peuvent être spécifiées en les séparant par une virgule.
+
+<a href="https://raw.githubusercontent.com/lbr38/documentation/main/images/motionui/alert1.png">
+<img src="https://raw.githubusercontent.com/lbr38/documentation/main/images/motionui/alert1.png" width=49% align="top"> 
+</a>
+</div>
+
+<h3>Configuration de motion</h3>
+
+<p>Motion propose plusieurs déclencheurs permettant d'exécuter une commande lorsqu'ils sont invoqués. Les paramètres proposé par motion sont les suivants :</p>
+
+- on_event_start = lorsqu'un nouvel évènement démarre 
+- on_event_end = lorsqu'un évènement prend fin
+- on_motion_detected = lorsqu'un mouvement est détecté
+- on_movie_start = lorsqu'un nouveau fichier vidéo vient d'être généré suite à une détection
+- on_movie_end = lorsqu'un fichier vidéo a terminé sa génération suite à une détection
+- on_picture_save = lorsqu'une image a été générée suite à une détection
+
+Depuis l'interface <b>motion-UI</b>, il est possible d'éditer la configuration de motion et donc de modifier ces déclencheurs. Il est conseiller d'utiliser et de configurer les déclencheurs suivants :
+
+<b>Lorsqu'un nouvel évènement démarre</b>
+
+```
+on_event_start /var/lib/motionui/tools/event --cam-id %t --cam-name %$ --register-event %v
+```
+
+La commande fait appel au script <b>event</b> qui va se charger d'enregistrer le nouvel évènement, ce qui permettra de le faire remonter dans l'interface web de motion-UI. 
+
+
 
 
