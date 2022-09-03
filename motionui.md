@@ -213,7 +213,7 @@ La configuration des alertes nécessite trois points de configuration :
 
 - Configurer le client mail <b>mutt</b> pour qu'il puisse envoyer des alertes depuis l'un de vos comptes mail (gmail, etc...)
 - Configurer motion pour qu'il envoie une ou plusieurs alertes selon les <b>déclencheurs</b> désirés
-- Le service <b>motionui</b> doit être démarré
+- Le service <b>motionui</b> doit être en cours d'exécution
 
 <h3>Configuration de mutt</h3>
 
@@ -251,15 +251,24 @@ set copy=no
 chown motion:motionui /var/lib/motionui/.muttrc
 ```
 
+Vérifier que l'envoi d'un mail fonctionne :
+
+```
+sudo -u motion echo '' | mutt -s 'test' -F /var/lib/motionui/.muttrc myemail@mail.com
+```
+
 Depuis l'interface motion-UI :
 
 - Renseigner les <b>créneaux horaires</b> entre lesquels vous souhaitez <b>recevoir des alertes</b> si détection il y a. Pour activer les alertes <b>toute une journée</b>, renseigner 00:00 pour le créneau de début ET de fin (comme sur la capture).
 - Renseigner le chemin vers le <b>fichier de configuration mutt</b>, ainsi que l'adresse mail destinataire qui recevra les alertes mails. Plusieurs adresses mails peuvent être spécifiées en les séparant par une virgule.
 
+<div align="center">
 <a href="https://raw.githubusercontent.com/lbr38/documentation/main/images/motionui/alert1.png">
 <img src="https://raw.githubusercontent.com/lbr38/documentation/main/images/motionui/alert1.png" width=49% align="top"> 
 </a>
 </div>
+
+<br>
 
 <h3>Configuration de motion</h3>
 
@@ -282,6 +291,46 @@ on_event_start /var/lib/motionui/tools/event --cam-id %t --cam-name %$ --registe
 
 La commande fait appel au script <b>event</b> qui va se charger d'enregistrer le nouvel évènement, ce qui permettra de le faire remonter dans l'interface web de motion-UI. 
 
+<b>Lorsqu'une vidéo a été générée</b>
+
+Ce paramètre implique qu'un mail sera envoyé avec la vidéo en pièce jointe. Veiller à ce que la durée de la vidéo ne soit pas trop longue pour éviter que le fichier vidéo soit trop gros et soit bloqué lors de l'envoi du mail.
+
+```
+on_movie_end /var/lib/motionui/tools/event --cam-id %t --event %v --file %f
+```
+
+<b>Lorsqu'une image a été générée (optionnel)</b>
+
+Ce paramètre implique que chaque image générée sera envoyée par mail, ce qui peut inclure un très grand nombre de mail. A n'utiliser que si nécessaire.
 
 
+```
+on_picture_save /var/lib/motionui/tools/event --cam-id %t --event %v --file %f
+```
 
+<b>Notes :</b>
+
+Veillez également à ce que les paramètres suivant soient configurés dans le(s) fichier(s) de configuration de motion :
+
+- camera_name
+- camera_id
+
+Ces paramètres sont utilisés dans les déclencheurs ci-dessus afin d'identifier correctement les évènements et les caméras associées dans la partie 'Motion: events' sur l'interface motion-UI.
+
+<h3>Tester les alertes</h3>
+
+Une fois que les points précédemment évoqués ont été correctement configurés et que le service motionui est bien en cours d'exécution, il est possible de tester l'envoi d'alertes. Pour cela depuis l'interface <b>motion-UI</b> :
+
+- S'assurer d'avoir activé les alertes (le gros bouton avec une cloche doit être rouge)
+- Désactiver provisoirement l'autostart de motion si activé
+- Démarrer manuellement motion (gros bouton power 'Start capture')
+
+Depuis un terminal sur le serveur exécutant motion-UI, vérifier en continu l'état du service motionui pour s'assurer qu'il ne remonte pas de 
+
+```
+watch -n1 systemctl status motionui
+```
+
+Puis <b>faire un mouvement</b> devant une caméra pour déclencher une alerte.
+
+Si tout se passe bien, le service ne soit pas remonter de message d'erreur et un nouvel évènement doit bientôt apparaitre dans l'interface <b>motion-UI</b>. Devrait s'en suivre un mail d'alerte.
