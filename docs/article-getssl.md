@@ -1,3 +1,6 @@
+<h1>Certificat Let's Encrypt avec getssl</h1>
+
+![letsencrypt](https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/getssl/letsencrypt.png) 
 
 **getssl** est un script bash permettant d’obtenir gratuitement un certificat SSL auprès de l’autorité de certification **Let’s Encrypt**, valide pour une durée de 3 mois.
 
