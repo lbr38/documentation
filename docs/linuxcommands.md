@@ -1,8 +1,8 @@
-<h1>Commandes Linux</h1>
+# Commandes Linux
 
-<h2>Rechercher dans l’arborescence</h2>
+## Rechercher dans l’arborescence
 
-<h3>find</h3>
+### find
 
 Parcourir les fichiers à la recherche d’une chaîne de caractères « toto » et afficher ces fichiers :
 
@@ -16,9 +16,9 @@ Trouver les gros fichiers (1Go ou plus) :
 find / -xdev -type f -size +1G -ls
 ```
 
-<h2>Opérations sur des variables, dans des fichiers, ou sur des chaines de caractères</h2>
+## Opérations sur des variables, dans des fichiers, ou sur des chaines de caractères
 
-<h3>cat</h3>
+### cat
 
 Afficher les caractères spéciaux invisibles d’un fichier :
 
@@ -32,7 +32,7 @@ Ajouter l’option -T pour également afficher les tabulations :
 cat -v -T fichier
 ```
 
-<h3>sed</h3>
+### sed
 
 Options :
 
@@ -121,7 +121,7 @@ Insérer une ligne avant un pattern :
 sed '/^pattern/i maligne' monfichier
 ```
 
-<h3>awk</h3>
+### awk
 
 Scinder une chaîne en 2 ou plusieurs parties, en fonction d’un caractère de séparation et afficher le terme souhaité
 
@@ -140,7 +140,7 @@ echo "$var" | awk -F: '{print $2}'
 terme2
 ```
 
-<h3>grep</h3>
+### grep
 
 Compter le nombre d’occurrences trouvées par grep :
 
@@ -148,9 +148,9 @@ Compter le nombre d’occurrences trouvées par grep :
 grep -c "occurence" monfichier
 ```
 
-<h2>Formatage</h2>
+## Formatage
 
-<h3>Supprimer des caractères au début d’une variable</h3>
+### Supprimer des caractères au début d’une variable
 
 Exemple : www.toto.com
 
@@ -161,7 +161,7 @@ NDD="www.toto.com"
 NDD=$(echo "${NDD#www.}")
 ```
 
-<h3>Supprimer des caractères à la fin d’une variable</h3>
+### Supprimer des caractères à la fin d’une variable
 
 Exemple : www.toto.com
 
@@ -172,16 +172,16 @@ NDD="www.toto.com"
 NDD=$(echo "${NDD%.com}")
 ```
 
-<h2>Encodage</h2>
+## Encodage
 
-<h3>Voir l’encodage d’un fichier</h3>
+### Voir l’encodage d’un fichier
 
 ```
 file -bi FICHIER
 text/x-shellscript; charset=iso-8859-1
 ```
 
-<h3>Modifier l’encodage d’un fichier</h3>
+### Modifier l’encodage d’un fichier
 
 -f : format source
 
@@ -191,7 +191,7 @@ text/x-shellscript; charset=iso-8859-1
 iconv -f iso-8859-1 -t utf-8 -c FICHIER
 ```
 
-<h2>Locales</h2>
+## Locales
 
 Exécuter une commande avec une locale différente (exemple avec date) :
 
@@ -199,7 +199,7 @@ Exécuter une commande avec une locale différente (exemple avec date) :
 LC_ALL="fr_FR.UTF-8" date +%A
 ```
 
-<h2>Vim</h2>
+## Vim
 
 Toutes les commandes ci-dessous s'effectuent en dehors du mode insertion (ECHAP)
 
@@ -261,7 +261,7 @@ yy (copier)
 p (coller)
 ```
 
-<h2>Espace disque</h2>
+## Espace disque
 
 Afficher l’espace disponible/utilisé sur les disques :
 
@@ -281,7 +281,7 @@ Calculer l’espace utilisé par un fichier ou répertoire :
 du -hs fichier
 ```
 
-<h2>Apache</h2>
+## Apache
 
 Tester la conf Apache :
 
@@ -313,7 +313,7 @@ NameVirtualHost 172.20.30.40:80
 </VirtualHost>
 ```
 
-<h2>Mysql et base de données</h2>
+## Mysql et base de données
 
 Changer le mot de passe root :
 
@@ -329,9 +329,9 @@ Modifier la politique de mot de passe de MySQL :
 mysql>SET GLOBAL validate_password_policy=LOW;
 ```
 
-<h2>Paquets</h2>
+## Paquets
 
-<h3>Debian/Ubuntu</h3>
+### Debian/Ubuntu
 
 Lister les paquets installés :
 
@@ -345,7 +345,7 @@ Rechercher dans tous les paquets si le paquet php est installé :
 dpkg -l *php*
 ```
 
-<h3>Red Hat/CentOS</h3>
+### Red Hat/CentOS
 
 Rechercher dans tous les paquets si le paquet php est installé :
 
@@ -372,7 +372,7 @@ Obtenir des informations détaillées sur un paquet :
 yum info php
 ```
 
-<h2>Curl</h2>
+## Curl
 
 Afficher/tester les entêtes HTTP d’un site web :
 
@@ -380,7 +380,7 @@ Afficher/tester les entêtes HTTP d’un site web :
 curl -I https://toto.com
 ```
 
-<h2>Iptables</h2>
+## Iptables
 
 Bloquer / bannir une adresse IP :
 
@@ -388,7 +388,7 @@ Bloquer / bannir une adresse IP :
 iptables -I INPUT -s X.X.X.X -j DROP
 ```
 
-<h2>GPG</h2>
+## GPG
 
 Générer une paire de clés :
 
@@ -485,7 +485,7 @@ Chiffrer un fichier :
 gpg2 --output monfichier.gpg --encrypt --recipient toto@tutu.com monfichier
 ```
 
-<h2>Arborescence et répertoires</h2>
+## Arborescence et répertoires
 
 Compter le nombre de fichiers dans un répertoire :
 
@@ -505,9 +505,9 @@ Vérifier si un répertoire est vide :
 [ "$(ls -A /chemin/répertoire/)" ] && echo "Pas vide" || echo "Vide"
 ```
 
-<h2>Commandes spéciales</h2>
+## Commandes spéciales
 
-<h3>globstar</h3>
+### globstar
 
 Activer / désactiver globstar (récursivité dans les répertoires) :
 
@@ -516,7 +516,7 @@ shopt -s globstar
 shopt -u globstar (pour désactiver)
 ```
 
-<h2>Affichage dans le terminal</h2>
+## Affichage dans le terminal
 
 Afficher une ligne sur tout le terminal (utile dans les script par exemple), ici il s’agira d’une ligne de caractères ‘=’ :
 
@@ -546,7 +546,7 @@ cut -d'@' -f2
 
 Explication : ici on coupe en deux blocs ce qui se trouve avant et après ‘@’. root étant le premier bloc et serveur le second. Ensuite on choisi de ne garder que le bloc 2 (donc serveur)
 
-<h2>Shell</h2>
+## Shell
 
 Se loguer avec un autre utilisateur et lui assigner temporairement un shell bash :
 
@@ -554,9 +554,9 @@ Se loguer avec un autre utilisateur et lui assigner temporairement un shell bash
 su nginx -s /bin/bash
 ```
 
-<h2>Virtualisation</h2>
+## Virtualisation
 
-<h3>Proxmox - openVZ</h3>
+### Proxmox - openVZ
 
 Lister les containers de l’hôte :
 
@@ -614,9 +614,9 @@ Entrer dans un container depuis l’hôte :
 vzctl enter CTID
 ```
 
-<h2>Ansible</h2>
+## Ansible
 
-<h3>Variable ansible</h3>
+### Variable ansible
 
 Hostname de la machine :
 
@@ -630,7 +630,7 @@ IP de la machine :
 ansible_default_ipv4.address
 ```
 
-<h2>Templates Jinja</h2>
+## Templates Jinja
 
 Concerne les fichiers de templates .j2
 

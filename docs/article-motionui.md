@@ -1,10 +1,10 @@
-<h1>Video surveillance avec motion et motion-UI</h1>
+# Video surveillance avec motion et motion-UI
 
 <b>Motion-UI</b> est une interface web (User Interface) développée pour gérer plus aisémment le fonctionnement et la configuration de <b>motion</b>, un célèbre logiciel <b>open-source</b> de détection de mouvement généralement utilisé pour faire de la vidéo surveillance.
 
 Il s'agit d'un projet open-source disponible sur github : <a href="https://github.com/lbr38/motion-UI">github de motion-UI</a>
 
-<h2>Présentation</h2>
+## Présentation
 
 L'interface se présente comme étant très simpliste et <b>responsive</b>, ce qui permet une utilisation depuis un <b>mobile</b> sans avoir à installer une application. Les gros boutons principaux permettent d'exécuter des actions avec précision sur mobile même lorsque la vision n'est pas optimale (soleil, mouvements...).
 
@@ -33,7 +33,7 @@ L'interface web se décompose en deux parties : 
 - Une partie dédiée à <b>motion</b>, permettant de démarrer/stopper le service ou de configurer des alertes en cas de détection. Quelques graphiques permettent de résumer l'activité récente du service et des évènements (events) aillant eu lieu, avec également la possibilité de visualiser les images ou vidéos capturées directement depuis la page web.
 - Une partie dédiée à la <b>visualisation en direct</b> (image par image raffraichie toutes les X secondes) de caméras http sur le réseau local. Les caméras sont alors disposées en grilles à l'écran (du moins sur un écran PC) un peu à la manière des écrans de vidéo-surveillance d'un établissement par exemple.
 
-<h2>Pré-requis</h2>
+## Pré-requis
 
 <b>Motion-UI</b> doit être installé sur le même hôte/serveur exécutant le service <b>motion</b>.
 
@@ -54,7 +54,7 @@ Si vous souhaitez pouvoir vous rendre sur <b>motion-UI</b> depuis l'extérieur, 
 
 Un nom de domaine avec un <b>enregistrement DNS</b> pointant vers l'adresse IP publique de votre box. Il faudra mettre en place les redirections de ports qui vont bien depuis l'interface de votre box/routeur, ainsi que <b>les règles de pare-feu n'autorisant que vous même</b> à vous connecter à l'interface web <b>motion-UI</b>.
 
-<h2>Installation</h2>
+## Installation
 
 Installer le paquet <b>git</b> si ce n'est pas déjà fait :
 
@@ -77,7 +77,7 @@ sudo ./motionui --install
 
 Une fois l'installation terminée, il ne reste plus qu'à mettre en place un vhost qui diffusera l'interface web de motion-UI.
 
-<h2>Vhost nginx</h2>
+## Vhost nginx
 
 Créer un nouveau fichier de vhost dans le répertoire dédié. Insérer le contenu suivant en adaptant certaines valeurs :
 
@@ -188,7 +188,7 @@ Si un message indique que le service motionui n'est pas démarré, le démarrer 
 sudo systemctl start motionui
 ```
 
-<h2>Démarrage et arrêt automatique</h2>
+## Démarrage et arrêt automatique
 
 Il est possible de configurer deux types de démarrages et arrêts automatiques :
 
@@ -207,7 +207,7 @@ Il est possible de configurer deux types de démarrages et arrêts automatiques 
 
 <br>
 
-<h2>Configurer les alertes</h2>
+## Configurer les alertes
 
 La configuration des alertes nécessite trois points de configuration :
 
@@ -215,7 +215,7 @@ La configuration des alertes nécessite trois points de configuration :
 - Configurer motion pour qu'il envoie une ou plusieurs alertes selon les <b>déclencheurs</b> désirés
 - Le service <b>motionui</b> doit être en cours d'exécution
 
-<h3>Configuration de mutt</h3>
+### Configuration de mutt
 
 Depuis un terminal sur le serveur exécutant motion-UI, créer un nouveau fichier <b>.muttrc</b>. Ce fichier devra être accessible en lecture par l'utilisateur <b>motion</b> :
 
@@ -270,7 +270,7 @@ Depuis l'interface motion-UI :
 
 <br>
 
-<h3>Configuration de motion</h3>
+### Configuration de motion
 
 <p>Motion propose plusieurs déclencheurs permettant d'exécuter une commande lorsqu'ils sont invoqués. Les paramètres proposé par motion sont les suivants :</p>
 
@@ -317,7 +317,7 @@ Veillez également à ce que les paramètres suivant soient configurés dans le(
 
 Ces paramètres sont utilisés dans les déclencheurs ci-dessus afin d'identifier correctement les évènements et les caméras associées dans la partie 'Motion: events' sur l'interface motion-UI.
 
-<h3>Tester les alertes</h3>
+### Tester les alertes
 
 Une fois que les points précédemment évoqués ont été correctement configurés et que le service motionui est bien en cours d'exécution, il est possible de tester l'envoi d'alertes. Pour cela depuis l'interface <b>motion-UI</b> :
 

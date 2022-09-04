@@ -6,9 +6,9 @@ nav:
       - Linux:
         - motion-UI: article-motionui.md
       - Raspberry Pi:
-        - Système:
-          - Afficher la température CPU: article-raspberrypi-temperature.md
-        - Vidéosurveillance:
+        - Systeme:
+          - Afficher la temperature CPU: article-raspberrypi-temperature.md
+        - Videosurveillance:
           - motion-UI: article-motionui.md
     - Memo Linux:
       - Commandes: linuxcommands.md

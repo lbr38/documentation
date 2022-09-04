@@ -1,10 +1,10 @@
-<h1>Afficher la température CPU du Raspberry Pi</h1>
+# Afficher la température CPU du Raspberry Pi
 
 Pour les inquiets qui souhaitent garder un œil sur la température du <b>Raspberry Pi</b>, il existe deux commandes permettant de récupérer une valeur de la part des capteurs de température.
 
 ![ss](https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/raspberrypi/thermal.png)
 
-<h2>Commandes</h2>
+## Commandes
 
 La première commande qui renvoie un résultat sous la forme suivante : '<b>temp=44.9’C</b>' :
 
@@ -22,7 +22,7 @@ cat /sys/class/thermal/thermal_zone0/temp | awk ' { print $1 / 1000 }'
 44
 ```
 
-<h2>Historique journalier</h2>
+## Historique journalier
 
 Pour aller plus loin, je propose le code ci-dessous qui est un script <b>bash</b> récupérant la témpérature <b>toutes les 5 minutes</b> et qui l'inscrit un fichier, gardant ainsi un <b>historique sur toute une journée</b>.
 
@@ -34,7 +34,7 @@ Extrait du fichier généré :
 
 ![ss](https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/raspberrypi/temp_repport.png)
 
-<h3>Conditions</h3>
+### Conditions
 
 - Si la température est inférieure à <b>40°</b>, alors on considère qu’elle est <b>OK</b>. La valeur est écrite en <span style="color:blue"><b>bleu</b></span> dans le fichier.
 - Si la température est comprise entre <b>40°</b> et <b>50°</b>, alors on considère qu’elle est <b>normale</b>. La valeur est écrite en <span style="color:green"><b>vert</b></span> dans le fichier.
@@ -46,7 +46,7 @@ Certes il peut être exagéré de parler de surchauffe lorsque la température d
 
 Cependant, mon Raspberry Pi n’ayant que très rarement atteint +70°C, je considère que si ça devait arriver, alors cela serait anormal et il serait bon d’en être averti par mail.
 
-<h3>Code</h3>
+### Code
 
 Créer un nouveau script en tant que pi :
 
@@ -138,7 +138,7 @@ fi
 exit
 ```
 
-<h3>Exécution automatique</h3>
+### Exécution automatique
 
 Pour que le script soit exécuté toutes les 5 minutes, il convient alors de rajouter une ligne dans la crontab :
 
