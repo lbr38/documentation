@@ -2,6 +2,8 @@
 
 Pour les inquiets qui souhaitent garder un œil sur la température du <b>Raspberry Pi</b>, il existe deux commandes permettant de récupérer une valeur de la part des capteurs de température.
 
+![ss](https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/raspberrypi/thermal.png)
+
 <h2>Commandes</h2>
 
 La première commande qui renvoie un résultat sous la forme suivante : '<b>temp=44.9’C</b>' :
@@ -30,7 +32,7 @@ Le fichier généré est au format HTML, ce qui permet d'ajouter quelques couleu
 
 Extrait du fichier généré :
 
-(insérer capture)
+![ss](https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/raspberrypi/temp_repport.png)
 
 <h3>Conditions</h3>
 
