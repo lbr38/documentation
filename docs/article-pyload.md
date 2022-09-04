@@ -209,7 +209,7 @@ Nous reviendrons plus tard pour la configuration du SSL (https) du reverse proxy
 
 J’ai déjà créé un article sur **getssl**, un script bash qui permet de commander un certificat SSL. Pour éviter les doublons, je vous invite à suivre cet article jusqu’à la fin et de commander un certificat pour le nom de domaine **dl.mondomaine.com**.
 
-Lien vers l’article : insérer lien
+Lien vers l’article : [Getssl](article-getssl.md)
 
 A ce stade, vous devriez exécuter la commande suivante pour commander votre certificat (exemple) : 
 
