@@ -1,12 +1,14 @@
 <h1>Pyload un gestionnaire de téléchargement en python</h1>
 
-![]()
+![pyload](https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/pyload/pyload.png) 
 
 **Pyload** est un gestionnaire de téléchargement direct (à l’instar de **Jdownloader**) développé en **python**.
 
 Il est administrable depuis une **interface web** et ne nécessite pas forcément une interface graphique pour fonctionner.
 
 Cet article décrit une installation sur serveur headless ARM (type Raspberry Pi) basé sur **Ubuntu-minimal 22.04**.
+
+![pyload-ui](https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/pyload/pyload-ui.png)
 
 ##Pré-requis
 
