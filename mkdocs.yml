@@ -1,0 +1,16 @@
+site_name: My Docs
+docs_dir: docs
+nav:
+    - Accueil: index.md
+    - Articles:
+      - Linux:
+        - motion-UI: article-motionui.md
+      - Raspberry Pi:
+        - Système:
+          - Afficher la température CPU: article-raspberrypi-temperature.md
+        - Vidéosurveillance:
+          - motion-UI: article-motionui.md
+    - Memo Linux:
+      - Commandes: linuxcommands.md
+
+theme: readthedocs
