@@ -4,6 +4,7 @@ nav:
     - Accueil: index.md
     - Articles:
       - Linux:
+        - getssl: article-getssl.md
         - motion-UI: article-motionui.md
         - pyload: article-pyload.md
       - Raspberry Pi:
