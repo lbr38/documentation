@@ -4,6 +4,7 @@ nav:
     - Accueil: index.md
     - Articles:
       - Linux:
+        - pyload: article-pyload.md
         - motion-UI: article-motionui.md
       - Raspberry Pi:
         - Systeme:
