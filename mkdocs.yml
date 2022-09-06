@@ -15,5 +15,6 @@ nav:
     - Memo Linux:
       - Commandes: linuxcommands.md
 
-navigation_depth: 3
+navigation_depth: 4
 theme: readthedocs
+nav_style: light
