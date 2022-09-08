@@ -7,7 +7,7 @@ linuxdocs.net
    :caption: GUIDES
 
    Getssl <guides/getssl>
-   Motion-UI <guides/motionui>
+   Vidéo-surveillance avec motion-UI <guides/motionui>
    Pyload <guides/pyload>
 
 .. toctree::
@@ -15,7 +15,6 @@ linuxdocs.net
    :caption: RASPBERRY PI
 
    Afficher la température CPU du Raspberry Pi <guides/raspberrypi-temperature>
-   Vidéo-surveillance avec motion-UI <guides/motionui>
 
 .. toctree::
    :maxdepth: 1
