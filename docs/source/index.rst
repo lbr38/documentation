@@ -1,16 +1,24 @@
-.. linuxdocs documentation master file, created by
-   sphinx-quickstart on Wed Sep  7 16:38:29 2022.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
 
 linuxdocs.net
 =============
 
 .. toctree::
    :maxdepth: 1
+   :caption: GUIDES
 
-   :caption: test
-   Getssl <getssl>
-   Motion-UI <motionui>
-   Pyload <pyload>
-   Afficher la température CPU du Raspberry Pi <raspberrypi-temperature>
+   Getssl <guides/getssl>
+   Motion-UI <guides/motionui>
+   Pyload <guides/pyload>
+
+.. toctree::
+   :maxdepth: 1
+   :caption: RASPBERRY PI
+
+   Afficher la température CPU du Raspberry Pi <guides/raspberrypi-temperature>
+   Vidéo-surveillance avec motion-UI <guides/motionui>
+
+.. toctree::
+   :maxdepth: 1
+   :caption: MEMO LINUX
+
+   Commandes <linuxcommands.rst>
