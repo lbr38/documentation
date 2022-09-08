@@ -9,6 +9,7 @@ linuxdocs.net
 .. toctree::
    :maxdepth: 1
 
+   :caption: test
    Getssl <getssl>
    Motion-UI <motionui>
    Pyload <pyload>
