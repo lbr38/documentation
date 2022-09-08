@@ -10,8 +10,6 @@ Welcome to linuxdocs's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-.. _a link: article-getssl.rst
-
 
 Indices and tables
 ==================
@@ -19,3 +17,4 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+* :ref:`Pyload un gestionnaire de téléchargement en python`
