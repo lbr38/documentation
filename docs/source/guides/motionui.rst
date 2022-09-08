@@ -288,7 +288,7 @@ Depuis l'interface motion-UI :
 Configuration de motion
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-<p>Motion propose plusieurs déclencheurs permettant d'exécuter une commande lorsqu'ils sont invoqués. Les paramètres proposé par motion sont les suivants :</p>
+Motion propose plusieurs déclencheurs permettant d'exécuter une commande lorsqu'ils sont invoqués. Les paramètres proposé par motion sont les suivants :
 
 - on_event_start = lorsqu'un nouvel évènement démarre 
 - on_event_end = lorsqu'un évènement prend fin
