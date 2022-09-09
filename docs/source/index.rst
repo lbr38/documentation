@@ -6,15 +6,16 @@ linuxdocs.net
    :maxdepth: 1
    :caption: GUIDES
 
-   Getssl <guides/getssl>
+   Accéder au disque dur de la Freebox <guides/freebox>
+   Certificat Let's Encrypt avec getssl <guides/getssl>
    Vidéo-surveillance avec motion-UI <guides/motionui>
-   Pyload <guides/pyload>
+   Pyload, un gestionnaire de téléchargement <guides/pyload>
 
 .. toctree::
    :maxdepth: 1
    :caption: RASPBERRY PI
 
-   Afficher la température CPU du Raspberry Pi <guides/raspberrypi-temperature>
+   Afficher la température CPU <guides/raspberrypi-temperature>
 
 .. toctree::
    :maxdepth: 1

@@ -278,9 +278,9 @@ Depuis l'interface motion-UI :
 .. raw:: html
 
     <div align="center">
-    <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/alert1.png">
-    <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/alert1.png" width=49% align="top"> 
-    </a>
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/alert1.png">
+            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/alert1.png" width=49% align="top"> 
+        </a>
     </div>
 
     <br>
