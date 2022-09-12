@@ -57,7 +57,7 @@ Editer **/etc/fstab** et ajouter la ligne suivante :
 
     sudo vim /etc/fstab
     
-    //IP_FREEBOX/Disque\040dur/ /mnt/freebox cifs _netdev,rw,iocharset=utf8,uid=toto,credentials=/home/toto/.freeboxcredentials,sec=ntlm,file_mode=0660,dir_mode=0775,vers=2.0 0 2
+    //IP_FREEBOX/Disque\040dur/ /mnt/freebox cifs _netdev,rw,iocharset=utf8,uid=toto,credentials=/home/toto/.freeboxcredentials,file_mode=0660,dir_mode=0775 0 2
 
 Adaptez les paramètres :
 
