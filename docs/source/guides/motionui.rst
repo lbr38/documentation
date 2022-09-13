@@ -353,3 +353,8 @@ Depuis un terminal sur le serveur exécutant motion-UI, vérifier en continu l'�
 Puis **faire un mouvement** devant une caméra pour déclencher une alerte.
 
 Si tout se passe bien, le service ne soit pas remonter de message d'erreur et un nouvel évènement doit bientôt apparaitre dans l'interface **motion-UI**. Devrait s'en suivre un mail d'alerte.
+
+Pour tout problème, n'hésitez pas à poser une **question** sur le dépôt du développeur ou à ouvrir une nouvelle **issue** : 
+
+https://github.com/lbr38/motion-UI/discussions
+https://github.com/lbr38/motion-UI/issues
