@@ -11,7 +11,7 @@ Présentation
 
 L'interface se présente comme étant très simpliste et **responsive**, ce qui permet une utilisation depuis un **mobile** sans avoir à installer une application. Les gros boutons principaux permettent d'exécuter des actions avec précision sur mobile même lorsque la vision n'est pas optimale (soleil, mouvements...).
 
-Elle permet en outre de mettre en place des alertes mail en cas de détection et d'activer ou non la vidéo-surveillance en fonction d'une plage horaire ou de la présence de périphériques "de confiance" sur le réseau local (smartphone...).
+Elle permet en outre de mettre en place des **alertes mail** en cas de détection et **d'activer automatiquement** ou non la vidéo-surveillance en fonction d'une plage horaire ou de la présence de périphériques "de confiance" sur le réseau local (smartphone...).
 
 .. raw:: html
 
@@ -353,3 +353,8 @@ Depuis un terminal sur le serveur exécutant motion-UI, vérifier en continu l'�
 Puis **faire un mouvement** devant une caméra pour déclencher une alerte.
 
 Si tout se passe bien, le service ne soit pas remonter de message d'erreur et un nouvel évènement doit bientôt apparaitre dans l'interface **motion-UI**. Devrait s'en suivre un mail d'alerte.
+
+Pour tout problème, n'hésitez pas à poser une **question** sur le dépôt du développeur ou à ouvrir une nouvelle **issue** : 
+
+https://github.com/lbr38/motion-UI/discussions
+https://github.com/lbr38/motion-UI/issues
