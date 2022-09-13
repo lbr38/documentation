@@ -22,5 +22,5 @@ linuxdocs.net
    :caption: MEMO LINUX
 
    Ansible <ansiblecommands.rst>
-   Shell <linuxcommands.rst>
    Kubernetes <kubecommands.rst>
+   Shell <linuxcommands.rst>

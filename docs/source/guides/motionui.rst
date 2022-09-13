@@ -11,6 +11,8 @@ Présentation
 
 L'interface se présente comme étant très simpliste et **responsive**, ce qui permet une utilisation depuis un **mobile** sans avoir à installer une application. Les gros boutons principaux permettent d'exécuter des actions avec précision sur mobile même lorsque la vision n'est pas optimale (soleil, mouvements...).
 
+Elle permet en outre de mettre en place des alertes mail en cas de détection et d'activer ou non la vidéo-surveillance en fonction d'une plage horaire ou de la présence de périphériques "de confiance" sur le réseau local (smartphone...).
+
 .. raw:: html
 
     <div align="center">
@@ -196,10 +198,10 @@ Si un message indique que le service motionui n'est pas démarré, le démarrer 
 
     sudo systemctl start motionui
 
-Démarrage et arrêt automatique
-------------------------------
+Démarrage et arrêt automatique de motion
+----------------------------------------
 
-Il est possible de configurer deux types de démarrages et arrêts automatiques :
+Il est possible de configurer deux types de démarrages et arrêts automatiques de motion :
 
 - En fonction des plages horaires renseignées pour chaque journée. Le service **motion** sera alors **actif** entre la plage d'horaire renseignée.
 - En fonction de la présence d'un ou plusieurs appareils IP connecté(s) sur le réseau local. Si aucun des appareils configurés n'est présent sur le réseau local alors le service motion démarrera, considérant que personne n'est présent au domicile. Motion-UI envoi régulièrement un **ping** pour déterminer si l'appareil est présent sur le réseau, il faut donc veiller à configurer des baux d'IP statiques depuis la box pour chaque appareil du domicile (smartphones).
