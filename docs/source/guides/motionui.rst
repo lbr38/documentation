@@ -17,19 +17,23 @@ Elle permet en outre de mettre en place des **alertes mail** en cas de détectio
 
     <div align="center">
     <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png" width=24% align="top"> 
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png" width=19% align="top"> 
     </a>
 
     <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-3.png">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-3.png" width=24% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-3.png" width=19% align="top">
     </a>
 
     <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-2.png">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-2.png" width=24% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-2.png" width=19% align="top">
+    </a>
+
+    <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-5.png">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-5.png" width=19% align="top">
     </a>
 
     <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png" width=24% align="top">
+    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png" width=19% align="top">
     </a>
     </div>
 
@@ -356,5 +360,5 @@ Si tout se passe bien, le service ne soit pas remonter de message d'erreur et un
 
 Pour tout problème, n'hésitez pas à poser une **question** sur le dépôt du développeur ou à ouvrir une nouvelle **issue** : 
 
-https://github.com/lbr38/motion-UI/discussions
-https://github.com/lbr38/motion-UI/issues
+- https://github.com/lbr38/motion-UI/discussions
+- https://github.com/lbr38/motion-UI/issues
