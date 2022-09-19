@@ -194,7 +194,12 @@ Créer un nouveau fichier de vhost dans le répertoire dédié. Insérer le cont
         }
     }
 
-Redémarrer **nginx** pour appliquer la configuration et se rendre sur motion-UI **depuis un navigateur web**.
+Redémarrer **nginx** pour appliquer la configuration et se rendre sur motion-UI **depuis un navigateur web** en utilisant les identifiants par défaut :
+
+- Login : **admin**
+- Mot de passe : **motionui**
+
+Il est possible de modifier son mot de passe depuis l'espace utilisateur (en haut à droite).
 
 Si un message indique que le service motionui n'est pas démarré, le démarrer depuis le terminal :
 
