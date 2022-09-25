@@ -4,11 +4,11 @@ linuxdocs.net
 
 .. toctree::
    :maxdepth: 1
-   :caption: GUIDES
+   :caption: GUIDES GENERIQUES
 
    Accéder au disque dur de la Freebox <guides/freebox>
    Certificat Let's Encrypt avec getssl <guides/getssl>
-   Vidéo-surveillance avec motion-UI <guides/motionui>
+   motion-UI, une interface web pour motion <guides/motionui>
    Pyload, un gestionnaire de téléchargement direct <guides/pyload>
 
 .. toctree::
@@ -16,6 +16,7 @@ linuxdocs.net
    :caption: RASPBERRY PI
 
    Afficher la température CPU <guides/raspberrypi-temperature>
+   Vidéo-surveillance avancée avec ustreamer et motion <guides/raspberrypi-videosurveillance>
 
 .. toctree::
    :maxdepth: 1
