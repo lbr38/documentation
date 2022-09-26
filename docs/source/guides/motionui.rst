@@ -63,6 +63,16 @@ Installer les dépendances :
 
     apt/yum install motion sqlite3 mutt wget curl git
 
+Installer nginx et PHP si ce n'est pas déjà fait :
+
+..  code-block:: shell
+
+    # Debian (il faut au prélable installer un repo de paquets pour PHP8.1, trouvable sur internet)
+    apt install nginx php8.1-fpm php8.1-cli php8.1-sqlite3
+
+    # RHEL/CentOS (il faut au prélable installer un repo de paquets pour PHP8.1, fourni par Remi Collet)
+    yum install nginx php-fpm php-cli php-pdo
+
 Si vous souhaitez pouvoir vous rendre sur **motion-UI** depuis l'extérieur, il faudra également :
 
 Un nom de domaine avec un **enregistrement DNS** pointant vers l'adresse IP publique de votre box. Il faudra mettre en place les redirections de ports qui vont bien depuis l'interface de votre box/routeur, ainsi que **les règles de pare-feu n'autorisant que vous même** à vous connecter à l'interface web **motion-UI**.
@@ -94,7 +104,11 @@ Une fois l'installation terminée, il ne reste plus qu'à mettre en place un vho
 Vhost nginx
 -----------
 
-Créer un nouveau fichier de vhost dans le répertoire dédié. Insérer le contenu suivant en adaptant certaines valeurs :
+Je ne peux pas détailler la configuration générale de **nginx** et **PHP** mais voici un exemple de vhost pour nginx permettant de servir motion-UI.
+
+Créer un nouveau fichier de vhost dans le répertoire dédié.
+
+Insérer le contenu suivant en adaptant certaines valeurs :
 
 - Le chemin vers le socket unix dédié à PHP
 - La valeur de la variable $WWW_DIR = indiquer le répertoire racine où vous avez choisi de stocker les sources web de motion-UI (notamment demandé lors de l'installation avec le script d'installation)
@@ -151,11 +165,6 @@ Créer un nouveau fichier de vhost dans le répertoire dédié. Insérer le cont
 
         # Path to motionui root dir
         root $WWW_DIR/public;
-
-        # Motion-UI does not have any login page for the moment. You can use a .htpasswd file to set up basic authentication.
-        # Uncomment the lines below and generate a .htpasswd file:
-        # auth_basic "You must login";
-        # auth_basic_user_file /var/www/.htpasswd;
 
         # Enable gzip
         gzip on;
