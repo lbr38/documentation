@@ -1,5 +1,5 @@
 ==============================================
-Accéder au disque dur de la Freebox sous Linux
+[Linux] - Accéder au disque dur de la Freebox sous Linux
 ==============================================
 
 .. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/freebox/freebox.jpg
