@@ -1,5 +1,5 @@
 ==================================================
-Pyload un gestionnaire de téléchargement en python
+[Linux] - Pyload un gestionnaire de téléchargement en python
 ==================================================
 
 .. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/pyload/pyload.png
