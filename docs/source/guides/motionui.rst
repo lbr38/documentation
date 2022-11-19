@@ -1,6 +1,6 @@
-===========================================
+=====================================================
 [Linux] - Video surveillance avec motion et motion-UI
-===========================================
+=====================================================
 
 **Motion-UI** est une interface web (User Interface) développée pour gérer plus aisémment le fonctionnement et la configuration de **motion**, un célèbre logiciel **open-source** de détection de mouvement généralement utilisé pour faire de la vidéo surveillance.
 
@@ -16,25 +16,31 @@ Elle permet en outre de mettre en place des **alertes mail** en cas de détectio
 .. raw:: html
 
     <div align="center">
-    <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png" width=19% align="top"> 
-    </a>
+        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png" width=25% align="top"> 
+        </a>
 
-    <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-3.png">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-3.png" width=19% align="top">
-    </a>
+        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-events.png">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-events.png" width=25% align="top">
+        </a>
 
-    <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-2.png">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-2.png" width=19% align="top">
-    </a>
+        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-metrics.png">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-metrics.png" width=25% align="top">
+        </a>
+    </div>
+    <br>
+    <div align="center">
+        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-autostart.png">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-autostart.png" width=25% align="top">
+        </a>
 
-    <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-5.png">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-5.png" width=19% align="top">
-    </a>
+        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-autostart.png">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-autostart.png" width=25% align="top">
+        </a>
 
-    <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png">
-    <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png" width=19% align="top">
-    </a>
+        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png" width=25% align="top">
+        </a>
     </div>
 
     <br>
@@ -52,7 +58,7 @@ Pré-requis
 
 L'installation préconisée est de dédier un serveur uniquement à l'exécution de **motion** et de **motion-UI**, et qu'il soit le point d'entrée unique pour la vidéo surveillance sur le réseau local : les caméras diffusent leur stream au serveur et c'est le serveur qui analyse les images et détecte d'éventuels mouvements et avertit l'utilisateur. La visualisation des caméras se fait également par le biais du serveur depuis l'interface **motion-UI**. C'est ce cas de figure qui sera détaillé ici.
 
-- Le paquet **motion** doit être installé
+- Le paquet **motion** doit être installé (version minimale >= 4.2)
 - Un serveur web **nginx** doit être à minima configuré
 - Une version récente de **php-fpm** (PHP 8.1 par ex.).
 - Quelques dépendances pour motion-UI, pour sa base de données, pour l'envoi de mail de notification et cas de détection et afin qu'il puisse récupérer ses dernières mises à jour depuis github
@@ -61,21 +67,22 @@ Installer les dépendances :
 
 ..  code-block:: shell
 
-    apt/yum install motion sqlite3 mutt wget curl git
+    apt/yum install motion sqlite3 mutt curl
 
 Installer nginx et PHP si ce n'est pas déjà fait :
 
 ..  code-block:: shell
 
     # Debian (il faut au prélable installer un repo de paquets pour PHP8.1, trouvable sur internet)
-    apt install nginx php8.1-fpm php8.1-cli php8.1-sqlite3
+    apt install nginx php8.1-fpm php8.1-cli php8.1-sqlite3 php8.1-curl
 
     # RHEL/CentOS (il faut au prélable installer un repo de paquets pour PHP8.1, fourni par Remi Collet)
-    yum install nginx php-fpm php-cli php-pdo
+    yum install nginx php-fpm php-cli php-pdo php-curl
 
 Si vous souhaitez pouvoir vous rendre sur **motion-UI** depuis l'extérieur, il faudra également :
 
-Un nom de domaine avec un **enregistrement DNS** pointant vers l'adresse IP publique de votre box. Il faudra mettre en place les redirections de ports qui vont bien depuis l'interface de votre box/routeur, ainsi que **les règles de pare-feu n'autorisant que vous même** à vous connecter à l'interface web **motion-UI**.
+- Un nom de domaine avec un **enregistrement DNS** pointant vers l'adresse IP publique de votre box.
+- Il faudra mettre en place les redirections de ports qui vont bien depuis l'interface de votre box/routeur, ainsi que **les règles de pare-feu n'autorisant que vous même** à vous connecter à l'interface web **motion-UI**.
 
 Installation
 ------------
@@ -104,7 +111,7 @@ Une fois l'installation terminée, il ne reste plus qu'à mettre en place un vho
 Vhost nginx
 -----------
 
-Je ne peux pas détailler la configuration générale de **nginx** et **PHP** mais voici un exemple de vhost pour nginx permettant de servir motion-UI.
+Je ne peux pas détailler la configuration générale de **nginx** et **PHP** mais voici l'exemple de vhost nginx préconisé permettant de servir motion-UI.
 
 Créer un nouveau fichier de vhost dans le répertoire dédié.
 
@@ -181,7 +188,7 @@ Insérer le contenu suivant en adaptant certaines valeurs :
         }
 
         location / {
-            rewrite ^ /index.php;
+            index index.php;
         }
 
         location ~ \.php$ {
@@ -203,7 +210,7 @@ Insérer le contenu suivant en adaptant certaines valeurs :
         }
     }
 
-Redémarrer **nginx** pour appliquer la configuration et se rendre sur motion-UI **depuis un navigateur web** en utilisant les identifiants par défaut :
+Redémarrer **nginx** pour appliquer la configuration et se rendre sur motion-UI **depuis un navigateur web** en se connectant avec les identifiants par défaut :
 
 - Login : **admin**
 - Mot de passe : **motionui**
@@ -216,27 +223,108 @@ Si un message indique que le service motionui n'est pas démarré, le démarrer 
 
     sudo systemctl start motionui
 
+
+Configuration de motion
+-----------------------
+
+La version minimale du paquet motion doit être **>= 4.2**. Sans quoi certaines fonctionnalités de **motion-UI** seront indisponibles.
+
+La configuration générale de **motion** est propre à chacun et à chaque utilisation. Par défaut motion met à disposition plusieurs fichiers de configuration :
+
+- **motion.conf** qui est le fichier de configuration principal
+- **des fichiers de configuration supplémentaires**, 1 pour chaque caméra.
+
+La bonne pratique étant d'utiliser **motion.conf** pour la configuration générale et d'utiliser les fichiers de configuration supplémentaires pour configurer individuellement chaque caméra. Puis de faire prendre en compte ces fichiers de configuration par le fichier principal (voir tout en bas de motion.conf pour inclure des fichiers supplémentaires).
+
+Pour chaque caméra :
+
+- veiller à préciser à minima un Id de caméra (camera_id).
+- veiller si possible et si la version de motion le prend en charge, de préciser un nom de caméra (camera_name).
+- veiller à préciser un répertoire de destination pour l'enregistrement des images et/ou vidéos et que celui-ci soit accessible en lecture et écriture au groupe **motionui**.
+
+Voir la documentation de motion pour plus d'informations sur chaque paramètre : https://motion-project.github.io/motion_config.html#Configuration_OptionsAlpha
+
+
+Paramétrer l'enregistrement des évènements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Pré-requis :
+
+- La version minimale du paquet motion doit être **>= 4.2**.
+- Le paramètre **camera_id** doit être configuré pour chaque caméra.
+
+Motion propose plusieurs déclencheurs permettant d'exécuter une commande lorsqu'ils sont invoqués :
+
+- on_event_start = lorsqu'un nouvel évènement démarre 
+- on_event_end = lorsqu'un évènement prend fin
+- on_motion_detected = lorsqu'un mouvement est détecté
+- on_movie_start = lorsqu'un nouveau fichier vidéo vient d'être généré suite à une détection
+- on_movie_end = lorsqu'un fichier vidéo a terminé sa génération suite à une détection
+- on_picture_save = lorsqu'une image a été générée suite à une détection
+
+**motion-UI** propose de paramétrer automatiquement l'enregistrement des évènements (on_event_start) en base de données lorsqu'une nouvelle détection a lieu. Ces évènements deviennent alors visibles depuis l'interface **motion-UI** avec les images et vidéos associées.
+
+L'enregistrement des évènement est également nécessaire pour la réception d'alertes mail (on reçoit une alerte lorsqu'un nouvel évènement a lieu).
+
+Pour chaque fichier de caméra, utiliser le bouton **Set up event registering** pour paramétrer automatiquement l'enregistrement d'évènements :
+
+.. raw:: html
+    
+    <div align="center">
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/motion-UI-setup-event.png">
+        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/motion-UI-setup-event.png" width=49% align="top"> 
+        </a>
+    </div>
+
+    <br>
+
+Ceci aura pour effet de configurer les 3 paramètres de motion suivants :
+
+- on_event_start
+- on_event_end
+- on_movie_end
+
+
+Tester l'enregistrement des évènements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Pour cela depuis l'interface **motion-UI** :
+
+- Démarrer manuellement motion (gros bouton power 'Start capture')
+
+Depuis un terminal sur le serveur exécutant motion-UI, vérifier en continu l'état du service motionui pour s'assurer qu'il ne remonte pas de message d'erreur : 
+
+..  code-block:: shell
+
+    watch systemctl status motionui
+
+Puis **faire un mouvement** devant une caméra pour déclencher un évènement.
+
+Si tout se passe bien, un nouvel évènement en cours devrait apparaitre dans l'interface **motion-UI**.
+
+
 Démarrage et arrêt automatique de motion
 ----------------------------------------
 
 Il est possible de configurer deux types de démarrages et arrêts automatiques de motion :
 
-- En fonction des plages horaires renseignées pour chaque journée. Le service **motion** sera alors **actif** entre la plage d'horaire renseignée.
+- En fonction des plages horaires renseignées pour chaque journée. Le service **motion** sera alors actif **entre** la plage d'horaire renseignée.
 - En fonction de la présence d'un ou plusieurs appareils IP connecté(s) sur le réseau local. Si aucun des appareils configurés n'est présent sur le réseau local alors le service motion démarrera, considérant que personne n'est présent au domicile. Motion-UI envoi régulièrement un **ping** pour déterminer si l'appareil est présent sur le réseau, il faut donc veiller à configurer des baux d'IP statiques depuis la box pour chaque appareil du domicile (smartphones).
 
 .. raw:: html
 
     <div align="center">
-    <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-1.png">
-    <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-1.png" width=49% align="top"> 
-    </a>
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-1.png">
+        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-1.png" width=49% align="top"> 
+        </a>
 
-    <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-2.png">
-    <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-2.png" width=49% align="top"> 
-    </a>
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-2.png">
+        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-2.png" width=49% align="top"> 
+        </a>
     </div> 
 
     <br>
+
 
 Configurer les alertes
 ----------------------
@@ -244,56 +332,34 @@ Configurer les alertes
 La configuration des alertes nécessite trois points de configuration :
 
 - Configurer le client mail **mutt** pour qu'il puisse envoyer des alertes depuis l'un de vos comptes mail (gmail, etc...)
-- Configurer motion pour qu'il envoie une ou plusieurs alertes selon les **déclencheurs** désirés
+- L'enregistrement des évènements doit être paramétré (voir Paramétrer l'enregistrement des évènements)
 - Le service **motionui** doit être en cours d'exécution
+
 
 Configuration de mutt
 ~~~~~~~~~~~~~~~~~~~~~
 
-Depuis un terminal sur le serveur exécutant motion-UI, créer un nouveau fichier **.muttrc**. Ce fichier devra être accessible en lecture par l'utilisateur **motion** :
+- Utiliser le bouton **Generate muttrc config template** pour générer un nouveau fichier de configuration mutt. Ce fichier est créé dans **/var/lib/motionui/.muttrc**.
 
-..  code-block:: shell
+- Entrer les informations concernant l'adresse mail qui sera émettrice des messages d'alertes ainsi que le mot de passe associé. Utiliser une adresse dédiée ou bien la même adresse qui recevra les mails (et qui s'enverra des alertes à elle même du coup).
+- Entrer les informations concernant le serveur SMTP à utiliser. Par défaut le template propose d'utiliser le smtp de **gmail**, ceci est valide uniquement si votre adresse mail émettrice est une adresse gmail. Sinon vous devrez chercher sur Internet les informations concernant le serveur SMTP à utiliser pour votre compte mail :
 
-    vim /var/lib/motionui/.muttrc
+.. raw:: html
 
-Insérer la configuration suivante, ici un exemple pour un compte mail @riseup.net :
+    <div align="center">
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/configure-mutt.png">
+            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/configure-mutt.png" width=49% align="top"> 
+        </a>
+    </div>
 
-..  code-block:: shell
+    <br>
 
-    # Nom de l'expéditeur du message
-    set realname = "motion-UI"
 
-    # Activer TLS si disponible sur le serveur
-    set ssl_starttls=yes
-    # Toujours utiliser SSL lors de la connexion à un serveur
-    set ssl_force_tls=yes
+Configuration des créneaux d'alertes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    # Configuration SMTP
-    set smtp_url = "smtps://ACCOUNT@riseup.net@mail.riseup.net:465/"
-    set smtp_pass = "ACCOUNT_PASSWORD"
-    set from = "ACCOUNT@riseup.net"
-    set use_envelope_from=yes
-
-    # Paramètres locaux, date 
-    set date_format="%A %d %b %Y à %H:%M:%S (%Z)"
-
-    # Ne pas conserver une copie des mails envoyés
-    set copy=no
-
-..  code-block:: shell
-
-    chown motion:motionui /var/lib/motionui/.muttrc
-
-Vérifier que l'envoi d'un mail fonctionne :
-
-..  code-block:: shell
-
-    sudo -u motion echo '' | mutt -s 'test' -F /var/lib/motionui/.muttrc myemail@mail.com
-
-Depuis l'interface motion-UI :
-
-- Renseigner les **créneaux horaires** entre lesquels vous souhaitez **recevoir des alertes** si détection il y a. Pour activer les alertes **toute une journée**, renseigner 00:00 pour le créneau de début ET de fin (comme sur la capture).
-- Renseigner le chemin vers le **fichier de configuration mutt**, ainsi que l'adresse mail destinataire qui recevra les alertes mails. Plusieurs adresses mails peuvent être spécifiées en les séparant par une virgule.
+- Renseigner les **créneaux horaires** entre lesquels vous souhaitez **recevoir des alertes** si détection il y a. Pour activer les alertes **toute une journée**, il convient de renseigner 00:00 pour le créneau de début ET de fin.
+- Renseigner l'adresse mail destinataire qui recevra les alertes mails. Plusieurs adresses mails peuvent être spécifiées en les séparant par une virgule.
 
 .. raw:: html
 
@@ -305,72 +371,25 @@ Depuis l'interface motion-UI :
 
     <br>
 
-Configuration de motion
-~~~~~~~~~~~~~~~~~~~~~~~
-
-Motion propose plusieurs déclencheurs permettant d'exécuter une commande lorsqu'ils sont invoqués. Les paramètres proposé par motion sont les suivants :
-
-- on_event_start = lorsqu'un nouvel évènement démarre 
-- on_event_end = lorsqu'un évènement prend fin
-- on_motion_detected = lorsqu'un mouvement est détecté
-- on_movie_start = lorsqu'un nouveau fichier vidéo vient d'être généré suite à une détection
-- on_movie_end = lorsqu'un fichier vidéo a terminé sa génération suite à une détection
-- on_picture_save = lorsqu'une image a été générée suite à une détection
-
-Depuis l'interface **motion-UI**, il est possible d'éditer la configuration de motion et donc de modifier ces déclencheurs. Il est conseiller d'utiliser et de configurer les déclencheurs suivants :
-
-**Lorsqu'un nouvel évènement démarre**
-
-..  code-block:: shell
-
-    on_event_start /var/lib/motionui/tools/event --cam-id %t --cam-name %$ --register-event %v
-
-La commande fait appel au script **event** qui va se charger d'enregistrer le nouvel évènement, ce qui permettra de le faire remonter dans l'interface web de motion-UI. 
-
-**Lorsqu'une vidéo a été générée**
-
-Ce paramètre implique qu'un mail sera envoyé avec la vidéo en pièce jointe. Veiller à ce que la durée de la vidéo ne soit pas trop longue pour éviter que le fichier vidéo soit trop gros et soit bloqué lors de l'envoi du mail.
-
-..  code-block:: shell
-
-    on_movie_end /var/lib/motionui/tools/event --cam-id %t --event %v --file %f
-
-**Lorsqu'une image a été générée (optionnel)**
-
-Ce paramètre implique que chaque image générée sera envoyée par mail, ce qui peut inclure un très grand nombre de mail. A n'utiliser que si nécessaire.
-
-
-..  code-block:: shell
-
-    on_picture_save /var/lib/motionui/tools/event --cam-id %t --event %v --file %f
-
-**Notes :**
-
-Veillez également à ce que les paramètres suivant soient configurés dans le(s) fichier(s) de configuration de motion :
-
-- camera_name
-- camera_id
-
-Ces paramètres sont utilisés dans les déclencheurs ci-dessus afin d'identifier correctement les évènements et les caméras associées dans la partie 'Motion: events' sur l'interface motion-UI.
 
 Tester les alertes
 ~~~~~~~~~~~~~~~~~~
 
-Une fois que les points précédemment évoqués ont été correctement configurés et que le service motionui est bien en cours d'exécution, il est possible de tester l'envoi d'alertes. Pour cela depuis l'interface **motion-UI** :
+Une fois que les points précédemment évoqués ont été correctement configurés et que le service motionui est bien en cours d'exécution, il est possible de tester l'envoi d'alertes.
 
-- S'assurer d'avoir activé les alertes (le gros bouton avec une cloche doit être rouge)
+Pour cela depuis l'interface **motion-UI** :
+
+- S'assurer d'avoir activé les alertes (le gros bouton avec la cloche doit être rouge)
 - Désactiver provisoirement l'autostart de motion si activé
 - Démarrer manuellement motion (gros bouton power 'Start capture')
 
-Depuis un terminal sur le serveur exécutant motion-UI, vérifier en continu l'état du service motionui pour s'assurer qu'il ne remonte pas de 
+Depuis un terminal sur le serveur exécutant motion-UI, vérifier en continu l'état du service motionui pour s'assurer qu'il ne remonte pas de message d'erreur : 
 
 ..  code-block:: shell
 
     watch -n1 systemctl status motionui
 
 Puis **faire un mouvement** devant une caméra pour déclencher une alerte.
-
-Si tout se passe bien, le service ne soit pas remonter de message d'erreur et un nouvel évènement doit bientôt apparaitre dans l'interface **motion-UI**. Devrait s'en suivre un mail d'alerte.
 
 Pour tout problème, n'hésitez pas à poser une **question** sur le dépôt du développeur ou à ouvrir une nouvelle **issue** : 
 

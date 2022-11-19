@@ -49,6 +49,12 @@ Lister les persistent volumes (pv)
 
     kubectl get pv -A
 
+Lister les containers à l'intérieur d'un pod
+
+..  code-block:: shell
+
+    kubectl get pods pod-xxx -o jsonpath='{.spec.containers[*].name}'
+
 Décrire une ressource
 ---------------------
 
@@ -64,7 +70,21 @@ Décrire un pod
 
     kubectl describe pod XXXX
 
+Lire les logs
+-------------
+
+Lire les logs d'un pod
+
+..  code-block:: shell
+
+    kubectl logs pod-xxxxxx
+
+Lire les évènements
+
+..  code-block:: shell
+
+    kubectl get events
 
 
 
-WIP
+(WIP)
