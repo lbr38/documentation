@@ -185,3 +185,21 @@ Passage du site en HTTPS
 Maintenant que le certificat pour **www.mondomaine.com** est généré, il peut être utilisé par un vhost écoutant sur le port **443**.
 
 La bonne pratique étant que le vhost 80 **redirige** tout le traffic vers le vhost **443**. Si une telle redirection est en place, pour les renouvellements de certificats il faudra que le répertoire **.well-known/acme-challenge/** soit diffusé par le vhost **443** (et non plus par le vhost 80).
+
+.. raw:: html
+
+    <script src="https://giscus.app/client.js"
+        data-repo="lbr38/documentation"
+        data-repo-id="R_kgDOH7ogDw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOH7ogD84CS53q"
+        data-mapping="pathname"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="fr"
+        crossorigin="anonymous"
+        async>
+    </script>
