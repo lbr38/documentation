@@ -441,4 +441,20 @@ Mettre en place une configuration SSH **renforcée** (par clé, utilisateur root
 
 Si vous souhaitez pouvoir y accéder depuis l'extérieur (pour aller sur **motion-UI** par exemple), la meilleure solution est la mise en place d'un **VPN** permettant d'accéder au réseau du domicile depuis l'extérieur (la Freebox permet de le faire). Une autre solution consisterai à mettre en place des redirections de port sur la box, mais dans ce cas précis les tentatives d'intrusions seront immédiates et les ports redirigés seront sans cesse scannés par les robots d'Internet.
 
+.. raw:: html
 
+    <script src="https://giscus.app/client.js"
+        data-repo="lbr38/documentation"
+        data-repo-id="R_kgDOH7ogDw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOH7ogD84CS53q"
+        data-mapping="pathname"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="fr"
+        crossorigin="anonymous"
+        async>
+    </script>

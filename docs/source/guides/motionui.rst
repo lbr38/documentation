@@ -395,3 +395,21 @@ Pour tout problème, n'hésitez pas à poser une **question** sur le dépôt du 
 
 - https://github.com/lbr38/motion-UI/discussions
 - https://github.com/lbr38/motion-UI/issues
+
+.. raw:: html
+
+    <script src="https://giscus.app/client.js"
+        data-repo="lbr38/documentation"
+        data-repo-id="R_kgDOH7ogDw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOH7ogD84CS53q"
+        data-mapping="pathname"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="fr"
+        crossorigin="anonymous"
+        async>
+    </script>

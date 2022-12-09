@@ -74,3 +74,21 @@ Monter le disque dur de la Freebox dans le répertoire précedemment créé :
     sudo mount /mnt/freebox
 
 C'est terminé, les fichiers stockés sur le disque dur de la Freebox sont désormais accessibles depuis **/mnt/freebox**
+
+.. raw:: html
+
+    <script src="https://giscus.app/client.js"
+        data-repo="lbr38/documentation"
+        data-repo-id="R_kgDOH7ogDw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOH7ogD84CS53q"
+        data-mapping="pathname"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="fr"
+        crossorigin="anonymous"
+        async>
+    </script>
