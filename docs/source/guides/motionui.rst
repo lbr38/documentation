@@ -413,3 +413,13 @@ Pour tout problème, n'hésitez pas à poser une **question** sur le dépôt du 
         crossorigin="anonymous"
         async>
     </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SS18FTVFFS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-SS18FTVFFS');
+    </script>

@@ -8,7 +8,11 @@ Mon choix en **2016** d'utiliser cette carte pour faire un **NAS** était qu'ell
 
 Aujourd'hui, **6 ans** plus tard, mon **Odroid XU4** rempli toujours autant ses fonctions. Il y a certes eu plusieurs réinstallations du système depuis, pour rester à jour, mais matériellement la carte n'a présenté aucun défaut de fonctionnement.
 
-.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/nas-nextcloud/odroid-xu4.png
+.. raw:: html
+
+    <div align="center">
+        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/nas-nextcloud/odroid-xu4.png" width=49% align="top"> 
+    </div>
 
 
 Pré-requis
@@ -1107,4 +1111,14 @@ Exécution tous les jours à minuit 00:00 :
         data-lang="fr"
         crossorigin="anonymous"
         async>
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SS18FTVFFS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-SS18FTVFFS');
     </script>
