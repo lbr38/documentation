@@ -6,10 +6,11 @@ linuxdocs.net
    :maxdepth: 1
    :caption: GUIDES GENERIQUES
 
+   NAS et nextcloud perso sur Odroid XU4 <guides/nas-odroid-xu4>
    Accéder au disque dur de la Freebox <guides/freebox>
-   Certificat Let's Encrypt avec getssl <guides/getssl>
    motion-UI, une interface web pour motion <guides/motionui>
    Pyload, un gestionnaire de téléchargement direct <guides/pyload>
+   Certificat Let's Encrypt avec getssl <guides/getssl>
 
 .. toctree::
    :maxdepth: 1
