@@ -72,13 +72,15 @@ Si vous souhaitez pouvoir vous rendre sur **motion-UI** depuis l'extérieur, il 
 Installation
 ------------
 
-Importer la clé publique du repo de **motion-UI** :
+**Installation sur un système Debian**:
+
+1. Importer la clé publique du repo de **motion-UI** :
 
 ..  code-block:: shell
 
     curl -sS https://packages.bespin.ovh/repo/gpgkeys/packages.bespin.ovh_deb.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.bespin.ovh_deb.gpg
 
-Installer le repo de paquets de **motion-UI** :
+2. Installer le repo de paquets de **motion-UI** :
 
 ..  code-block:: shell
 
@@ -94,12 +96,34 @@ Installer le repo de paquets de **motion-UI** :
     # Pour Ubuntu Focal 20.04
     echo "deb https://packages.bespin.ovh/repo/motionui/focal/main_prod focal main" > /etc/apt/sources.list.d/motionui.list
 
-Mettre à jour la liste des paquets et installer :
+3. Mettre à jour la liste des paquets et installer le paquet **motionui** :
 
 ..  code-block:: shell
 
     apt update
     apt install motionui
+
+
+**Installation sur un système RHEL**:
+
+1. Installer le repo de paquets de **motion-UI** :
+
+..  code-block:: shell
+
+    echo -e "[motionui]
+    name=motionui repo on packages.bespin.ovh
+    comment=motionui repo on packages.bespin.ovh
+    baseurl=https://packages.bespin.ovh/repo/motionui_prod
+    enabled=1
+    gpgkey=https://packages.bespin.ovh/repo/gpgkeys/packages.bespin.ovh_rpm.pub
+    gpgcheck=1" > /etc/yum.repos.d/motionui.repo
+
+2. Installer le paquet **motionui** :
+
+..  code-block:: shell
+
+    yum install motionui
+
 
 Une fois l'installation terminée, il ne reste plus qu'à configurer le serveur web qui diffusera l'interface web de motion-UI.
 
