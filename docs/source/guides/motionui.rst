@@ -51,25 +51,63 @@ L'interface web se décompose en deux parties :
 - Une partie dédiée à **motion**, permettant de démarrer/stopper le service ou de configurer des alertes en cas de détection. Quelques graphiques permettent de résumer l'activité récente du service et des évènements (events) aillant eu lieu, avec également la possibilité de visualiser les images ou vidéos capturées directement depuis la page web.
 - Une partie dédiée à la **visualisation en direct** (image par image raffraichie toutes les X secondes) de caméras http sur le réseau local. Les caméras sont alors disposées en grilles à l'écran (du moins sur un écran PC) un peu à la manière des écrans de vidéo-surveillance d'un établissement par exemple.
 
+
 Pré-requis
 ----------
 
 **Motion-UI** doit être installé sur le même hôte/serveur exécutant le service **motion**.
 
-L'installation préconisée est de dédier un serveur uniquement à l'exécution de **motion** et de **motion-UI**, et qu'il soit le point d'entrée unique pour la vidéo surveillance sur le réseau local : les caméras diffusent leur stream au serveur et c'est le serveur qui analyse les images et détecte d'éventuels mouvements et avertit l'utilisateur. La visualisation des caméras se fait également par le biais du serveur depuis l'interface **motion-UI**. C'est ce cas de figure qui sera détaillé ici.
+L'installation préconisée est de dédier un serveur uniquement à l'exécution de **motion** et de **motion-UI**, et qu'il soit le point d'entrée unique pour la vidéo-surveillance sur le réseau local : les caméras diffusent leur stream au serveur et c'est le serveur qui analyse les images et détecte d'éventuels mouvements et avertit l'utilisateur. La visualisation des caméras se fait également par le biais du serveur depuis l'interface **motion-UI**. C'est ce cas de figure qui sera détaillé ici.
 
-- Le paquet **motion** doit être installé (version minimale >= 4.2)
-- Un serveur web **nginx** doit être à minima configuré
-- Une version récente de **php-fpm** (PHP 8.1 par ex.).
-- Quelques dépendances pour motion-UI, pour sa base de données, pour l'envoi de mail de notification et cas de détection et afin qu'il puisse récupérer ses dernières mises à jour depuis github
+- Le paquet **motion** doit être installé (version minimale >= 4.1).
+- Un serveur web **nginx** avec une version récente de **php-fpm** (PHP 8.1).
+- Un certificat SSL.
 
-Installer les dépendances :
+Si vous souhaitez pouvoir vous rendre sur **motion-UI** depuis l'extérieur, il faudra également :
+
+- Un nom de domaine avec un **enregistrement DNS** pointant vers l'adresse IP publique de votre box.
+- Il faudra mettre en place les redirections de ports qui vont bien depuis l'interface de votre box/routeur, ainsi que **les règles de pare-feu n'autorisant que vous même** à vous connecter à l'interface web **motion-UI**.
+
+
+Installation
+------------
+
+Importer la clé publique du repo de **motion-UI** :
 
 ..  code-block:: shell
 
-    apt/yum install motion sqlite3 mutt curl
+    curl -sS https://packages.bespin.ovh/repo/gpgkeys/packages.bespin.ovh_deb.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.bespin.ovh_deb.gpg
 
-Installer nginx et PHP si ce n'est pas déjà fait :
+Installer le repo de paquets de **motion-UI** :
+
+..  code-block:: shell
+
+    # Pour Debian 11
+    echo "deb https://packages.bespin.ovh/repo/motionui/bullseye/main_prod bullseye main" > /etc/apt/sources.list.d/motionui.list
+
+    # Pour Debian 10
+    echo "deb https://packages.bespin.ovh/repo/motionui/buster/main_prod buster main" > /etc/apt/sources.list.d/motionui.list
+
+    # Pour Ubuntu Jammy 22.04
+    echo "deb https://packages.bespin.ovh/repo/motionui/jammy/main_prod jammy main" > /etc/apt/sources.list.d/motionui.list
+
+    # Pour Ubuntu Focal 20.04
+    echo "deb https://packages.bespin.ovh/repo/motionui/focal/main_prod focal main" > /etc/apt/sources.list.d/motionui.list
+
+Mettre à jour la liste des paquets et installer :
+
+..  code-block:: shell
+
+    apt update
+    apt install motionui
+
+Une fois l'installation terminée, il ne reste plus qu'à configurer le serveur web qui diffusera l'interface web de motion-UI.
+
+
+Serveur web nginx
+-----------------
+
+Installer **nginx** et **PHP-FPM 8.1** :
 
 ..  code-block:: shell
 
@@ -79,38 +117,6 @@ Installer nginx et PHP si ce n'est pas déjà fait :
     # RHEL/CentOS (il faut au prélable installer un repo de paquets pour PHP8.1, fourni par Remi Collet)
     yum install nginx php-fpm php-cli php-pdo php-curl
 
-Si vous souhaitez pouvoir vous rendre sur **motion-UI** depuis l'extérieur, il faudra également :
-
-- Un nom de domaine avec un **enregistrement DNS** pointant vers l'adresse IP publique de votre box.
-- Il faudra mettre en place les redirections de ports qui vont bien depuis l'interface de votre box/routeur, ainsi que **les règles de pare-feu n'autorisant que vous même** à vous connecter à l'interface web **motion-UI**.
-
-Installation
-------------
-
-Installer le paquet **git** si ce n'est pas déjà fait :
-
-..  code-block:: shell
-
-    apt/yum install git
-
-Cloner le projet **motion-UI** :
-
-..  code-block:: shell
-
-    git clone https://github.com/lbr38/motion-UI.git
-
-Exécuter le script d'installation et se laisser guider. Le script nécessite des droits sudo car il devra être en mesure de créer le répertoire où seront stockées les sources web (par défaut **/var/www/motionui**), de créer le répertoire où seront stockées les données (**/var/lib/motionui**) ainsi que de créer un service systemd 'motionui' :
-
-..  code-block:: shell
-
-    cd motion-UI
-    sudo ./motionui --install
-
-Une fois l'installation terminée, il ne reste plus qu'à mettre en place un vhost qui diffusera l'interface web de motion-UI.
-
-Vhost nginx
------------
-
 Je ne peux pas détailler la configuration générale de **nginx** et **PHP** mais voici l'exemple de vhost nginx préconisé permettant de servir motion-UI.
 
 Créer un nouveau fichier de vhost dans le répertoire dédié.
@@ -118,16 +124,15 @@ Créer un nouveau fichier de vhost dans le répertoire dédié.
 Insérer le contenu suivant en adaptant certaines valeurs :
 
 - Le chemin vers le socket unix dédié à PHP
-- La valeur de la variable $WWW_DIR = indiquer le répertoire racine où vous avez choisi de stocker les sources web de motion-UI (notamment demandé lors de l'installation avec le script d'installation)
 - Le paramètre SERVER-IP = l'adresse IP du serveur nginx
 - Les paramètres SERVERNAME.MYDOMAIN.COM = le nom de domaine dédié à motion-UI
 - Les chemins vers le certificat SSL et clé privée associée
 
 ..  code-block:: shell
 
-    # Path to unix socket
+    # Path to PHP unix socket
     upstream php-handler {
-        server unix:/var/run/php-fpm/php-fpm.sock;
+        server unix:/run/php/php8.1-fpm.sock;
     }
 
     server {
@@ -138,8 +143,8 @@ Insérer le contenu suivant en adaptant certaines valeurs :
         return 301 https://$server_name$request_uri;
 
         # Path to log files
-        access_log /var/log/nginx/SERVERNAME.MYDOMAIN.COM_access.log;
-        error_log /var/log/nginx/SERVERNAME.MYDOMAIN.COM_error.log;
+        access_log /var/log/nginx/motionui_access.log;
+        error_log /var/log/nginx/motionui_error.log;
     }
 
     server {
@@ -150,8 +155,8 @@ Insérer le contenu suivant en adaptant certaines valeurs :
         server_name SERVERNAME.MYDOMAIN.COM;
 
         # Path to log files
-        access_log /var/log/nginx/SERVERNAME.MYDOMAIN.COM_ssl_access.log combined;
-        error_log /var/log/nginx/SERVERNAME.MYDOMAIN.COM_ssl_error.log;
+        access_log /var/log/nginx/motionui_ssl_access.log combined;
+        error_log /var/log/nginx/motionui.COM_ssl_error.log;
 
         # Path to SSL certificate/key files
         ssl_certificate PATH-TO-CERTIFICATE.crt;
@@ -188,14 +193,13 @@ Insérer le contenu suivant en adaptant certaines valeurs :
         }
 
         location / {
-            index index.php;
+            rewrite ^ /index.php;
         }
 
         location ~ \.php$ {
             root $WWW_DIR/public;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME $request_filename;
-            #include fastcgi.conf;
             fastcgi_param HTTPS on;
             # Avoid sending the security headers twice
             fastcgi_param modHeadersAvailable true;
@@ -227,7 +231,7 @@ Si un message indique que le service motionui n'est pas démarré, le démarrer 
 Configuration de motion
 -----------------------
 
-La version minimale du paquet motion doit être **>= 4.2**. Sans quoi certaines fonctionnalités de **motion-UI** seront indisponibles.
+La version minimale du paquet motion doit être **>= 4.1**. Sans quoi certaines fonctionnalités de **motion-UI** seront indisponibles.
 
 La configuration générale de **motion** est propre à chacun et à chaque utilisation. Par défaut motion met à disposition plusieurs fichiers de configuration :
 
@@ -250,7 +254,7 @@ Paramétrer l'enregistrement des évènements
 
 Pré-requis :
 
-- La version minimale du paquet motion doit être **>= 4.2**.
+- La version minimale du paquet motion doit être **>= 4.1**.
 - Le paramètre **camera_id** doit être configuré pour chaque caméra.
 
 Motion propose plusieurs déclencheurs permettant d'exécuter une commande lorsqu'ils sont invoqués :
