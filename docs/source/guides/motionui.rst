@@ -266,7 +266,7 @@ Utiliser le bouton **+** en haut de page pour ajouter une caméra.
 
 - Préciser si la caméra diffuse un **flux video** ou seulement une **image statique** qui nécessite un rechargement (si oui préciser l'intervalle de rafraîchissement en secondes).
 - Préciser alors un nom et l'URL vers le **flux video/image** de la caméra
-- Choisir ou non de redifuser le flux video/image sur motion-UI (dans les paramètres généraux on peut ensuite choisir de diffuser ce flux sur la page principale, sur la page **live** ou les deux).
+- Choisir ou non de rediffuser le flux video/image sur motion-UI (dans les paramètres généraux on peut ensuite choisir de diffuser ce flux sur la page principale, sur la page **live** ou les deux).
 - Choisir d'activer la détection de mouvement (motion) sur cette caméra. Attention si le flux sélectionné est une image statique alors il faudra préciser une seconde URL pointant vers un flux video car motion est incapable de faire de la détection de mouvement sur un flux d'images statiques (il n'est pas capable de recharger automatiquement l'image).
 - Préciser un utilisateur / mot de passe si le flux est protégé (beta).
 
@@ -282,7 +282,7 @@ Utiliser le bouton **+** en haut de page pour ajouter une caméra.
 
 Une fois la camera ajoutée : 
 
-- motion-UI se charge de créer automatiquement la **configuration motion** pour cette caméra. Il suffit alors de redémarrer motion pour qu'elle soit pris en compte. A noter que la configuration motion créée est relativement minimaliste mais suffisante pour fonctionner dans tous les cas. Il est possible de modifier cette configuration en mode avancé et d'ajouter ses propres paramètres si besoin (voir partie **Configuration d'une caméra**).
+- motion-UI se charge de créer automatiquement la **configuration motion** pour cette caméra. A noter que la configuration motion créée est relativement minimaliste mais suffisante pour fonctionner dans tous les cas. Il est possible de modifier cette configuration en mode avancé et d'ajouter ses propres paramètres si besoin (voir partie **Configuration d'une caméra**).
 - Le flux de la caméra devient visible depuis la page principale, la page **live** (ou les deux) selon la configuration globale choisie.
 
 
@@ -313,8 +313,6 @@ Par exemple **il vaut mieux éviter** de modifier les paramètres suivants :
 - les paramètres liés aux codecs (**picture_type** et **movie_codec**) ne doivent pas être modifiés sous peine de ne plus pouvoir visualier les captures directement depuis motion-UI. 
 - les paramètres d'évènements (**on_event_start**, **on_event_end**, **on_movie_end** et **on_picture_save**) ne doivent pas être modifiés sous peine de ne plus pouvoir enregistrer les évènements de détection de mouvement, et de ne plus recevoir d'alertes.
 
-Chaque changement de configuration nécessite le redémarrage de motion pour être pris en compte.
-
 
 Tester l'enregistrement des évènements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -329,15 +327,9 @@ Pour cela depuis l'interface **motion-UI** : démarrer manuellement motion (bout
 
     <br>
 
-Depuis un terminal sur le serveur exécutant motion-UI, vérifier en continu l'état du service motionui pour s'assurer qu'il ne remonte pas de message d'erreur : 
-
-..  code-block:: shell
-
-    watch systemctl status motionui
-
 Puis **faire un mouvement** devant une caméra pour déclencher un évènement.
 
-Si tout se passe bien, un nouvel évènement en cours devrait apparaitre dans l'interface **motion-UI**.
+Si tout se passe bien, un nouvel évènement en cours devrait apparaitre après quelques secondes dans l'interface **motion-UI**.
 
 
 Démarrage et arrêt automatique de motion
@@ -438,12 +430,6 @@ Pour cela depuis l'interface **motion-UI** :
 
 - Désactiver temporairement l'autostart de motion si activé, pour éviter qu'il ne stoppe motion au cas où.
 - Démarrer manuellement motion (**Start capture**)
-
-Depuis un terminal sur le serveur exécutant motion-UI, vérifier en continu l'état du service motionui pour s'assurer qu'il ne remonte pas de message d'erreur : 
-
-..  code-block:: shell
-
-    watch systemctl status motionui
 
 Puis **faire un mouvement** devant une caméra pour déclencher une alerte.
 

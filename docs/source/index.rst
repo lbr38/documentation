@@ -17,7 +17,7 @@ linuxdocs.net
    :caption: RASPBERRY PI
 
    Afficher la température CPU <guides/raspberrypi-temperature>
-   Vidéo-surveillance avancée avec ustreamer et motion <guides/raspberrypi-videosurveillance>
+   Vidéo-surveillance avancée avec ustreamer et motion/motion-UI <guides/raspberrypi-videosurveillance>
 
 .. toctree::
    :maxdepth: 1

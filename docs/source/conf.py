@@ -60,6 +60,9 @@ html_theme = 'sphinx_rtd_theme'
 #    "display_version": False,
 #     "show_navbar_depth": 3
 # }
+html_theme_options = {
+    'navigation_depth': 8,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

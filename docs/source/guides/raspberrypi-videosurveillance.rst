@@ -1,6 +1,6 @@
-===================================================
-[Raspberry Pi] - Vidéo-surveillance avancée avec ustreamer et motion
-===================================================
+==============================================================================
+[Raspberry Pi] - Vidéo-surveillance avancée avec ustreamer et motion/motion-UI
+==============================================================================
 
 Introduction
 ============
@@ -15,7 +15,7 @@ Pourtant, les limitations se font vite ressentir malgré les évolutions de la c
 Solution
 ========
 
-La solution proposée ici tente de répondre à la problématique de surcharge en dispatchant les tâches :
+La solution proposée ici tente de répondre à la problématique de surcharge en séparant les tâches :
 
 - Les **cartes ARM** (Raspberry Pi ou autre) s'occupent de capturer et renvoyer le flux vidéo généré par la caméra qui y est rattachée.
 - Un **serveur central** recéptionne les flux et prend en charge les tâches lourdes de **détection de mouvement** et **d'encodage** (motion)
@@ -48,7 +48,7 @@ Le serveur devra faire tourner un OS tel que Debian, CentOS... là où il est po
 
 Préparer chaque élément :
 
-- Installer les OS nécéssaires (raspbian ou armbian par exemple) sur chaque cartes ARM et sur le serveur central (Debian par exemple)
+- Installer les OS nécéssaires (raspbian ou armbian par exemple) sur chaque cartes ARM et sur le serveur central (Debian 11 par exemple)
 - Mettre à jour les paquets systèmes et firmware si besoin
 - Configurer des adresses IP fixes sur les cartes et le serveur
 
@@ -92,7 +92,6 @@ Lancer l'installation de **ustreamer** en le compilant (c'est facile), il faut a
 
     # Si autre, voir : https://github.com/pikvm/ustreamer#building
 
-
     # Puis cloner le projet ustreamer :
     cd /home/pi/
     git clone --depth=1 https://github.com/pikvm/ustreamer
@@ -116,36 +115,78 @@ Créer les scripts de démarrage et d’arrêt du stream, c’est l'utilisateur 
 
 ..  code-block:: shell
     
-    mkdir -p /home/pi/scripts
+    mkdir -p /home/pi/scripts/stream
 
-Script de démarrage :
+Script de démarrage du stream :
 
 ..  code-block:: shell
 
-    vim /home/pi/scripts/start-camera.sh
+    vim /home/pi/scripts/stream/start-stream.sh
 
 Insérer le contenu suivant :
 
 ..  code-block:: shell
 
     #!/bin/bash
+  
+    DATE=$(date +%Y-%m-%d)
+    TIME=$(date +%Hh%M)
+    RESOLUTION="1920x1080"
+    FRAMERATE="25"
+    USTREAMER="/home/pi/ustreamer/ustreamer"
+    LOG="/home/pi/scripts/stream/ustreamer.log"
 
-    RESOLUTION="1920x1080" # Resolution du stream, à adapter en fonction de la résolution maximale dont est capable la camera
-    FRAMERATE="25" # Nombre d'images par seconde qui seront diffusées par le stream, si la camera en est capable
-    LOG="/home/pi/scripts/ustreamer-live.log" # Emplacement du fichier de log 
 
-    echo -n> "$LOG" # Vidage du fichier de log
+    function help()
+    {
+        echo "Usage: $0 [options]"
+        echo "Options:"
+        echo "  --1080p"
+        echo "  --720p"
+        echo "  --low"
+        echo "  --fps=FRAMERATE"
+        echo "  --help"
+    }
 
-    echo "Démarrage du stream" 
-    /home/pi/ustreamer/ustreamer --device=/dev/video0 --slowdown -e 30 -K 0 -r $RESOLUTION -m MJPEG --host 0.0.0.0 --port 8888 --device-timeout 2 --device-error-delay 1 2>&1 | tee "$LOG" &
+    while [ $# -ge 1 ];do
+        case "$1" in
+            --1080p)
+                RESOLUTION="1920x1080"
+            ;;
+            --720p)
+                RESOLUTION="1280x720"
+            ;;
+            --low)
+                RESOLUTION="640x480"
+            ;;
+            --fps)
+                FRAMERATE="$2"
+                shift
+            ;;
+            --help)
+                help
+                exit
+            ;;
+            *)
+        esac
+        shift
+    done
+
+    # Cleaning log file
+    echo -n> "$LOG"
+    exec &> >(tee -a "$LOG")
+
+    echo "$DATE - $TIME - Starting stream" 
+
+    "$USTREAMER" --device=/dev/video0 --slowdown --workers 2 -e 30 -K 0 -r "$RESOLUTION" -m MJPEG --host 0.0.0.0 --port 8888 --device-timeout 2 --device-error-delay 1 2>&1 &
 
     exit
 
-Script d'arrêt :
+Script d'arrêt du stream :
 
 ..  code-block:: shell
 
-    vim /home/pi/scripts/stop-camera.sh
+    vim /home/pi/scripts/stream/stop-stream.sh
 
 Insérer le contenu suivant :
 
@@ -153,28 +194,26 @@ Insérer le contenu suivant :
 
     #!/bin/bash
 
-    # Pour arrêter le stream, il faut tuer le processus, du coup on cherche le PID correspondant :
-
-    PID="$(/bin/ps -aux | /bin/grep 'ustreamer' | egrep -v 'grep|ustreamer-live.log' | /usr/bin/awk '{print $2}')"
+    # Search for the process ID of ustreamer
+    PID="$(/bin/ps -aux | /bin/grep 'ustreamer' | egrep -v 'grep|ustreamer.log' | /usr/bin/awk '{print $2}')"
 
     if [ -z "$PID" ];then
-        echo "Aucun processus actif de ustreamer"
+        echo "No active process found"
         exit
     fi
 
-    echo "Arrêt de ustreamer :"
-    kill "$PID"
-
+    echo "Stopping ustreamer... "
+    kill "$PID" > /dev/null 2>&1
     sleep 1
 
-    # Vraiment au cas où le processus n'a pas été tué, on retente une deuxième fois :
-
-    if /bin/ps -aux | /bin/grep '/home/pi/ustreamer/ustreamer' | /bin/grep -v 'grep';then
-        echo "Le processus n'a pas été tué, nouvelle tentative..."
+    # Check if the process is still running
+    if /bin/ps -aux | /bin/grep 'ustreamer' | egrep -v 'grep|ustreamer.log';then
+        echo "Process is still running, killing it"
         kill -9 "$PID"
-    else
-        echo "OK"
+        exit
     fi
+
+    echo "OK"
 
     exit
 
@@ -182,16 +221,18 @@ Ajuster les permissions sur ce qui vient d'être créé :
 
 ..  code-block:: shell
 
-    chmod 700 /home/pi/scripts/start-camera.sh 
-    chmod 700 /home/pi/scripts/stop-camera.sh
+    chmod 700 /home/pi/scripts/stream/*.sh 
     chown -R pi:pi /home/pi/scripts
 
-Se loguer temporairement en tant que **pi** et démarrer le stream pour tester :
+Se loguer temporairement en tant que **pi** et démarrer le stream pour tester. Il est possible de préciser une résolution et un framerate en paramètre du script de démarrage. Par défaut, le stream est lancé en **1920x1080** et à **25 fps** :
 
 ..  code-block:: shell
 
     su pi
-    /home/pi/scripts/start-camera.sh &
+    /home/pi/scripts/stream/start-stream.sh &
+
+    # Exemple pour démarrer le stream en 720p et à 30 fps :
+    /home/pi/scripts/stream/start-stream.sh --720p --fps 30 &
 
 Ça devrait afficher quelques logs à l’écran.
 
@@ -203,223 +244,513 @@ Toujours en tant que **pi** créer une tâche cron qui démarrera le stream auto
 
     crontab -e
 
-    @reboot /home/pi/scripts/start-camera.sh
+    @reboot /home/pi/scripts/start-camera.sh &
 
 
 Configuration du serveur
 ------------------------
 
-Le but ici est de mettre en place **motion** pour analyser le flux des caméras disposées dans l'habitation et détecter des mouvements.
-
-**motion-UI** pourra également être installé afin de pouvoir administrer plus facilement motion, pouvoir **configurer des alertes** et pouvoir **visualiser le stream en direct** des caméras sans jamais avoir besoin de se connecter aux caméras elles-mêmes.
+Le but ici est de mettre en place **motion** et **motion-UI** (interface web) pour analyser le flux des caméras disposées dans l'habitation et détecter des mouvements.
 
 Notes :
 
-- Le système utilisé ici est Debian
-- La version de motion installée est au minimum la **4.3.X**. Les versions plus anciennes peuvent ne pas comporter certains paramètres disponibles uniquement sur les versions récentes.
+- Le système utilisé ici est Debian 11
 - L’ensemble des configurations s’effectuent en **root**.
 
-Motion
-++++++
-
-Installer motion :
-
-..  code-block:: shell
-
-    apt install motion
-
-Configuration générale
-~~~~~~~~~~~~~~~~~~~~~~
-
-Motion est livré avec un fichier de configuration principal **motion.conf** ainsi que plusieurs sous-fichiers de caméras optionnels :
-
-..  code-block:: shell
-
-    -rw-r--r-- 1 root root  726 nov.  15  2020 camera1-dist.conf
-    -rw-r--r-- 1 root root  817 nov.  15  2020 camera2-dist.conf
-    -rw-r--r-- 1 root root  881 nov.  15  2020 camera3-dist.conf
-    -rw-r--r-- 1 root root  798 nov.  15  2020 camera4-dist.conf
-    -rw-r--r-- 1 root root 5190 nov.  15  2020 motion.conf
-
-Par défaut lorsqu'il n'y a qu'une seule caméra à traiter, on peut utiliser uniquement le fichier principal et s'affranchir des sous-fichiers.
-Dans notre cas, nous avons plusieurs caméras à gérer et nous devrons utiliser ces sous-fichiers (1 pour chaque caméra).
-
-Commencer par désactiver/adapter certains paramètres dans le fichier de configuration principal :
-
-..  code-block:: shell
-
-    vim /etc/motion/motion.conf
-
-Désactiver le mode daemon car c'est **systemd** qui exécutera motion :
-
-..  code-block:: shell
-
-    daemon off
-
-Spécifier l'emplacement du fichier de log.
-Veillez à ce que le répertoire où il est stocké existe et que l'utilisateur **motion** a le droit d'écriture sur le fichier.
-
-..  code-block:: shell
-
-    log_file /var/log/motion/motion.log
-
-Commenter les paramètres suivants :
-
-..  code-block:: shell
-
-    ;target_dir
-    ;videodevice
-
-Désactiver le système de stream proposé par motion en le forçant à streamer uniquement sur localhost :
-
-..  code-block:: shell
-
-    stream_localhost on
-
-Enfin, tout en bas du fichier il est possible d'inclure des fichiers de configuration supplémentaires.
-Inclure autant de fichiers que nécessaire (1 par caméra), en les nommant explicitement si besoin. Par exemple pour inclure 2 caméras :
-
-..  code-block:: shell
-
-    camera /etc/motion/camera-exterieur.conf
-    camera /etc/motion/camera-interieur.conf
-
-Enregistrer et sortir du fichier de configuration principal.
-
-Puis utiliser les fichiers de configuration supplémentaires déjà présents et les renommer :
-
-..  code-block:: shell
-
-    cd /etc/motion/
-    mv camera1-dist.conf camera-exterieur.conf
-    mv camera2-dist.conf camera-interieur.conf
-
-Configuration par caméra
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-Editer chacun des fichiers de caméras précédemment inclus dans la configuration principale et ajouter/adapter les paramètres suivants.
-
-
-Modifier le nom de la caméra, ce sera notamment utile dans motion-UI pour identifier la caméra.
-Le nom doit être unique pour chaque caméra.
-
-..  code-block:: shell
-
-    camera_name Exterieur
-
-Modifier le numéro de caméra, ce sera notamment utile dans motion-UI pour identifier la caméra.
-L'Id doit être unique pour chaque caméra.
-
-..  code-block:: shell
-
-    camera_id 01
-
-L'URL vers le stream **ustreamer** de la caméra en question. Motion restera connecté en permanence au stream et l'analysera pour détecter des mouvements et capturer des images.
-
-..  code-block:: shell
-
-    netcam_url http://ADRESSE_IP_CAMERA_EXTERIEUR:8888/stream
-    netcam_keepalive on
-    netcam_tolerant_check on
-
-Résolution et framerate du stream, indiquer les mêmes valeurs que celles indiquées dans le script de démarrage de ustreamer **start-camera.sh** :    
-
-..  code-block:: shell
-
-    width 1920
-    height 1080
-    framerate 25
-
-Optionnel : il est possible d'inclure un texte dans les vidéos qui seront générées par motion lors d'une détection de mouvement :
-
-..  code-block:: shell
-
-    text_left Exterieur
-
-Nombre d'images pré-détection et post-détection à inclure dans les fichiers vidéos générés par motion lorsqu'une détection à lieu :
-
-..  code-block:: shell
-
-    pre_capture 0
-    post_capture 2
-
-Nombre de secondes sans mouvement à l'issue desquelles un évènement prendra fin.
-Ici on indique que si 30 secondes ont passé sans nouveau mouvement alors motion peut clore l'évènement en cours.
-
-..  code-block:: shell
-
-    event_gap 30
-
-Désactivation de la génération d'images et activation de la génération de vidéos.
-
-Le nombre d'images (fichiers d'images JPEG) générées par motion lorsqu'un mouvement est détecté peut être énorme et générer plusieurs centaines ou miliers d'images en une seule journée selon les cas.
-
-On préfèrera donc uniquement générer des fichiers vidéos (.avi).
-
-On limite également la durée de chaque vidéo à 30 secondes afin de ne pas générer de trop gros fichier vidéo à la fois. Si l'évènement doit dure plus de 30sec alors plusieurs vidéos de 30sec seront généréés à la suite.
-
-..  code-block:: shell
-
-    picture_output off
-
-    movie_output on
-    movie_quality 90
-    movie_codec mpeg4
-    movie_max_time 30
-
-Répertoire sur le serveur dans lequel enregistrer les fichiers vidéos générés par motion.
-Veiller à créer le répertoire au préalable.
-
-..  code-block:: shell
-
-    target_dir /home/camera/exterieur
-
-Nom des fichiers vidéos générés. Ici le fichier vidéo sera préfixé de la date et l'heure à laquelle a eu lieu la détection et sera placé dans un répertoire à la date du jour.
-
-..  code-block:: shell
-
-    movie_filename %Y-%m-%d/%v_%Y-%m-%d_%Hh%Mm%Ss_video
-
-C'est à peu près tout pour la configuration des caméras. Répéter l'opération pour chaque caméra.
-
-Si besoin, tous les paramètres de configuration et leur description sont visibles ici : `documentation de motion <https://motion-project.github.io/motion_config.html#Configuration_OptionsAlpha>`_
-
-Démarrage de motion
-~~~~~~~~~~~~~~~~~~~
-
-Il est temps de tester la configuration mise en place.
-
-Démarrer le service **motion** puis vérifier son état :
-
-..  code-block:: shell
-
-    systemctl start motion
-    systemctl status motion
-
-Si besoin le fichier de log **/var/log/motion/motion.log** peut être utile pour débugguer un problème de démarrage.
-
-Lorsque tout est au vert, **effectuer un mouvement de la main** devant l'une des caméras paramétrées afin de tester la détection de mouvement.
-Puis vérifier qu'un fichier vidéo est en cours de génération par motion dans le répertoire **target_dir** spécifié pour cette caméra.
-
-S'aider des logs si aucun fichier n'est généré, cela provient généralement d'un problème de droit d'écriture.
-
-Motion-UI
+motion-UI
 +++++++++
 
-**motion-UI** est une interface web permettant d'administrer plus aisément **motion**.
+Présentation
+~~~~~~~~~~~~
 
-Son installation reste optionnelle, on peut tout à fait s'arrêter ici et utiliser motion tel que configuré actuellement.
+**Motion-UI** est une interface web (User Interface) développée pour gérer plus aisémment le fonctionnement et la configuration de **motion**.
 
-L'avantage de **motion-UI** est qu'il permet d'aller plus loin dans l'utilisation de **motion**, il permet en outre de mettre en place des **alertes** et de démarrer/stopper motion **de manière autonome** en fonction de la présence ou l'absence d'une personne dans l'habitation.
+Il s'agit d'un projet open-source disponible sur github : https://github.com/lbr38/motion-UI
 
-Il permet également de **visualiser le stream des caméras en direct** et de lire les vidéos générées par motion lors de détections.
+L'interface se présente comme étant très simpliste et **responsive**, ce qui permet une utilisation depuis un **mobile** sans avoir à installer une application. Les gros boutons principaux permettent d'exécuter des actions rapides avec précision sur mobile même lorsque la vision n'est pas optimale (soleil, mouvements...).
 
-J'ai déjà fait un article sur l'installation de motion-UI qu'il suffit de suivre : https://www.linuxdocs.net/guides/motionui.html
+Elle permet en outre de mettre en place des **alertes mail** en cas de détection et **d'activer automatiquement** ou non la vidéo-surveillance en fonction d'une plage horaire ou de la présence de périphériques "de confiance" sur le réseau local (smartphone...).
+
+.. raw:: html
+
+    <div align="center">
+        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png" width=25% align="top"> 
+        </a>
+
+        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-events.png">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-events.png" width=25% align="top">
+        </a>
+
+        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-metrics.png">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-metrics.png" width=25% align="top">
+        </a>
+    </div>
+    <br>
+    <div align="center">
+        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-autostart.png">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-autostart.png" width=25% align="top">
+        </a>
+
+        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-autostart.png">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-autostart.png" width=25% align="top">
+        </a>
+
+        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png" width=25% align="top">
+        </a>
+    </div>
+
+    <br>
+
+
+L'interface web se décompose en deux parties :
+
+- La page principale dédiée principalement dédiée à **motion**, permettant de démarrer/stopper le service ou de configurer des alertes en cas de détection. Quelques graphiques permettent de résumer l'activité récente du service et des évènements (events) aillant eu lieu, avec également la possibilité de visualiser les images ou vidéos capturées directement depuis la page web.
+- Une page **live** dédiée à la **visualisation en direct** des flux des caméras. Les caméras sont alors disposées en grilles à l'écran (du moins sur un écran PC) un peu à la manière des écrans de vidéo-surveillance d'un établissement par exemple.
+
+
+Installation de nginx et PHP
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Commencer par installer le repo de paquets pour **PHP 8.1** :
+
+..  code-block:: shell
+
+    apt-get install ca-certificates apt-transport-https software-properties-common wget 
+
+    # Installer la clé GPG
+    wget -qO - https://packages.sury.org/php/apt.gpg | apt-key add -
+
+    # Pour Debian 10
+    echo "deb https://packages.sury.org/php/ buster main" > /etc/apt/sources.list.d/php.list
+
+    # Pour Debian 11
+    echo "deb https://packages.sury.org/php/ bullseye main" > /etc/apt/sources.list.d/php.list
+
+Puis installer les paquets pour **nginx** et **PHP-FPM 8.1** :
+
+..  code-block:: shell
+
+    apt update
+    apt install nginx php8.1-fpm php8.1-cli php8.1-sqlite3 php8.1-curl
+
+Créer un nouveau vhost nginx pour motion-UI :
+
+..  code-block:: shell
+
+    vim /etc/nginx/sites-available/motionui.conf
+
+Puis insérer le contenu désiré, deux cas sont possibles selon votre utilisation :
+
+- Configuration locale sans certificat SSL
+- Configuration avec nom de domaine et certificat SSL
+
+**Configuration locale sans certificat SSL**
+
+Insérer le contenu suivant en adaptant certaines valeurs :
+
+- Le paramètre SERVER-IP = l’adresse IP du serveur
+
+..  code-block:: shell
+
+    # Path to PHP unix socket
+    upstream php-handler {
+        server unix:/run/php/php8.1-fpm.sock;
+    }
+
+    server {
+        # Set motion-UI web directory location
+        set $WWW_DIR '/var/www/motionui'; # default is /var/www/motionui
+
+        listen SERVER-IP:80;
+        server_name SERVER-IP;
+
+        # Path to log files
+        access_log /var/log/nginx/motionui_access.log combined;
+        error_log /var/log/nginx/motionui_error.log;
+
+        # Add headers to serve security related headers
+        add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload;" always;
+        add_header Referrer-Policy "no-referrer" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-Download-Options "noopen" always;
+        add_header X-Frame-Options "SAMEORIGIN" always;
+        add_header X-Permitted-Cross-Domain-Policies "none" always;
+        add_header X-Robots-Tag "none" always;
+        add_header X-XSS-Protection "1; mode=block" always;
+
+        # Remove X-Powered-By, which is an information leak
+        fastcgi_hide_header X-Powered-By;
+
+        # Path to motionui root dir
+        root $WWW_DIR/public;
+
+        # Enable gzip
+        gzip on;
+        gzip_vary on;
+        gzip_comp_level 4;
+        gzip_min_length 256;
+        gzip_proxied expired no-cache no-store private no_last_modified no_etag auth;
+        gzip_types application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
+
+        location = /robots.txt {
+            deny all;
+            log_not_found off;
+            access_log off;
+        }
+
+        location / {
+            rewrite ^ /index.php;
+        }
+
+        location ~ \.php$ {
+            root $WWW_DIR/public;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $request_filename;
+            # Avoid sending the security headers twice
+            fastcgi_param modHeadersAvailable true;
+            fastcgi_pass php-handler;
+            fastcgi_intercept_errors on;
+            fastcgi_request_buffering off;
+        }
+
+        location ~ \.(?:css|js|svg|gif|map|png|html|ttf|ico|jpg|jpeg)$ {
+            try_files $uri $uri/ =404;
+            access_log off;
+        }
+    }
+
+
+**Configuration avec nom de domaine et certificat SSL**
+ 
+Insérer le contenu suivant en adaptant certaines valeurs :
+
+- Le paramètre SERVER-IP = l’adresse IP du serveur
+- Les paramètres SERVERNAME.MYDOMAIN.COM = le nom de domaine dédié à motion-UI
+- Les chemins vers le certificat SSL et la clé privée associée (PATH-TO-CERTIFICATE.crt et PATH-TO-PRIVATE-KEY.key)
+
+..  code-block:: shell
+
+    # Path to PHP unix socket
+    upstream php-handler {
+        server unix:/run/php/php8.1-fpm.sock;
+    }
+
+    server {
+        listen SERVER-IP:80;
+        server_name SERVERNAME.MYDOMAIN.COM;
+
+        # Force https
+        return 301 https://$server_name$request_uri;
+
+        # Path to log files
+        access_log /var/log/nginx/motionui_access.log;
+        error_log /var/log/nginx/motionui_error.log;
+    }
+
+    server {
+        # Set motion-UI web directory location
+        set $WWW_DIR '/var/www/motionui'; # default is /var/www/motionui
+
+        listen SERVER-IP:443 ssl;
+        server_name SERVERNAME.MYDOMAIN.COM;
+
+        # Path to log files
+        access_log /var/log/nginx/motionui_ssl_access.log combined;
+        error_log /var/log/nginx/motionui_ssl_error.log;
+
+        # Path to SSL certificate/key files
+        ssl_certificate PATH-TO-CERTIFICATE.crt;
+        ssl_certificate_key PATH-TO-PRIVATE-KEY.key;
+
+        # Add headers to serve security related headers
+        add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload;" always;
+        add_header Referrer-Policy "no-referrer" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-Download-Options "noopen" always;
+        add_header X-Frame-Options "SAMEORIGIN" always;
+        add_header X-Permitted-Cross-Domain-Policies "none" always;
+        add_header X-Robots-Tag "none" always;
+        add_header X-XSS-Protection "1; mode=block" always;
+
+        # Remove X-Powered-By, which is an information leak
+        fastcgi_hide_header X-Powered-By;
+
+        # Path to motionui root dir
+        root $WWW_DIR/public;
+
+        # Enable gzip
+        gzip on;
+        gzip_vary on;
+        gzip_comp_level 4;
+        gzip_min_length 256;
+        gzip_proxied expired no-cache no-store private no_last_modified no_etag auth;
+        gzip_types application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
+
+        location = /robots.txt {
+            deny all;
+            log_not_found off;
+            access_log off;
+        }
+
+        location / {
+            rewrite ^ /index.php;
+        }
+
+        location ~ \.php$ {
+            root $WWW_DIR/public;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $request_filename;
+            fastcgi_param HTTPS on;
+            # Avoid sending the security headers twice
+            fastcgi_param modHeadersAvailable true;
+            fastcgi_pass php-handler;
+            fastcgi_intercept_errors on;
+            fastcgi_request_buffering off;
+        }
+
+        location ~ \.(?:css|js|svg|gif|map|png|html|ttf|ico|jpg|jpeg)$ {
+            try_files $uri $uri/ =404;
+            access_log off;
+        }
+    }
+
+Créer un lien symbolique pour activer le vhost :
+
+..  code-block:: shell
+
+    ln -s /etc/nginx/sites-available/motionui.conf /etc/nginx/sites-enabled/motionui.conf
+
+Redémarrer nginx pour appliquer :
+
+..  code-block:: shell
+
+    systemctl restart nginx
+
+
+Installation de motion-UI
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Installer le repo de motion-UI :
+
+..  code-block:: shell
+
+    curl -sS https://packages.bespin.ovh/repo/gpgkeys/packages.bespin.ovh_deb.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.bespin.ovh_deb.gpg
+
+    # Debian 10
+    echo "deb https://packages.bespin.ovh/repo/motionui/buster/main_prod buster main" > /etc/apt/sources.list.d/motionui.list
+
+    # Debian 11
+    echo "deb https://packages.bespin.ovh/repo/motionui/bullseye/main_prod bullseye main" > /etc/apt/sources.list.d/motionui.list
+
+Installer motion-UI :
+
+..  code-block:: shell
+
+    apt update
+    apt install motionui
+
+L'installation se chargera d'installer motion en version 4.4 minimum si besoin.
+
+Redémarrer PHP-FPM après l'installation pour appliquer certains droits :
+
+..  code-block:: shell
+
+    systemctl restart php8.1-fpm
+
+Enfin, accéder à motion-UI depuis un navigateur web, en utilisant l'adresse IP du serveur ou le nom de domaine configuré (selon la configuration de vhost mise en place) :
+
+- http://SERVER-IP (IP du serveur, sans certificat SSL)
+- https://SERVERNAME.MYDOMAIN.COM (nom de domaine, avec certificat SSL)
+
+Utiliser les identifiants par défaut pour s'authentifier :
+
+- Login : **admin**
+- Mot de passe : **motionui**
+
+Une fois connecté, il est possible de modifier son mot de passe depuis l'espace utilisateur (en haut à droite).
+
+
+Ajout d'une caméra
+~~~~~~~~~~~~~~~~~~
+
+Utiliser le bouton **+** en haut de page pour ajouter une caméra.
+
+- Préciser si la caméra diffuse un **flux video** ou seulement une **image statique** qui nécessite un rechargement (si oui préciser l'intervalle de rafraîchissement en secondes).
+- Préciser alors un nom et l'URL vers le **flux video/image** de la caméra
+- Choisir ou non de rediffuser le flux video/image sur motion-UI (dans les paramètres généraux on peut ensuite choisir de diffuser ce flux sur la page principale, sur la page **live** ou les deux).
+- Choisir d'activer la détection de mouvement (motion) sur cette caméra. Attention si le flux sélectionné est une image statique alors il faudra préciser une seconde URL pointant vers un flux video car motion est incapable de faire de la détection de mouvement sur un flux d'images statiques (il n'est pas capable de recharger automatiquement l'image).
+- Préciser un utilisateur / mot de passe si le flux est protégé (beta).
+
+.. raw:: html
+
+    <div align="center">
+        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/documentation/camera/add.gif">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/documentation/camera/add.gif" align="top"> 
+        </a>
+    </div> 
+
+    <br>
+
+Une fois la camera ajoutée : 
+
+- motion-UI se charge de créer automatiquement la **configuration motion** pour cette caméra. A noter que la configuration motion créée est relativement minimaliste mais suffisante pour fonctionner dans tous les cas. Il est possible de modifier cette configuration en mode avancé et d'ajouter ses propres paramètres si besoin (voir partie **Configuration d'une caméra**).
+- Le flux de la caméra devient visible depuis la page principale, la page **live** (ou les deux) selon la configuration globale choisie.
+
+
+Configuration d'une caméra
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Si le besoin de modifier la configuration d'une caméra se fait sentir, il suffit de cliquer sur le bouton **Configure**.
+
+.. raw:: html
+
+    <div align="center">
+        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/documentation/camera/configure.gif">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/documentation/camera/configure.gif" align="top"> 
+        </a>
+    </div> 
+
+    <br>
+
+D'ici il est possible de modifier les paramètres généraux de la caméra (**nom**, **URL**, etc.), de changer la **rotation** de l'image.
+
+Il est également possible de modifier la **configuration motion** de la caméra (détection de mouvement).
+
+Attention, il est préconisé d'**éviter de modifier les paramètres motion en mode avancé**, ou du moins pas sans savoir précisément ce que l'on fait.
+
+Par exemple **il vaut mieux éviter** de modifier les paramètres suivants :
+
+- les paramètres de nom et d'URL (**camera_name**, **netcam_url**, **netcam_userpass** et **rotate**) ont des valeurs issues des paramètres généraux de la caméra. Il convient donc de les modifier directement depuis les champs **Global settings**.
+- les paramètres liés aux codecs (**picture_type** et **movie_codec**) ne doivent pas être modifiés sous peine de ne plus pouvoir visualier les captures directement depuis motion-UI. 
+- les paramètres d'évènements (**on_event_start**, **on_event_end**, **on_movie_end** et **on_picture_save**) ne doivent pas être modifiés sous peine de ne plus pouvoir enregistrer les évènements de détection de mouvement, et de ne plus recevoir d'alertes.
+
+
+Tester l'enregistrement des évènements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Pour cela depuis l'interface **motion-UI** : démarrer manuellement motion (bouton **Start capture**).
+
+.. raw:: html
+
+    <div align="center">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/documentation/start-stop-button.png" align="top"> 
+    </div> 
+
+    <br>
+
+Puis **faire un mouvement** devant une caméra pour déclencher un évènement.
+
+Si tout se passe bien, un nouvel évènement en cours devrait apparaitre après quelques secondes dans l'interface **motion-UI**.
+
+
+Démarrage et arrêt automatique de motion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Utiliser le bouton **Enable and configure autostart** pour activer et configurer le démarrage automatique.
+
+.. raw:: html
+
+    <div align="center">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/documentation/autostart-button.png" align="top"> 
+    </div> 
+
+    <br>
+
+Il est possible de configurer deux types de démarrages et arrêts automatiques de motion :
+
+- En fonction des plages horaires renseignées pour chaque journée. Le service **motion** sera alors actif **entre** la plage d'horaire renseignée.
+- En fonction de la présence d'un ou plusieurs appareils IP connecté(s) sur le réseau local. Si aucun des appareils configurés n'est présent sur le réseau local alors le service motion démarrera, considérant que personne n'est présent au domicile. Motion-UI envoi régulièrement un **ping** pour déterminer si l'appareil est présent sur le réseau, il faut donc veiller à configurer des baux d'IP statiques depuis la box pour chaque appareil du domicile (smartphones).
+
+.. raw:: html
+
+    <div align="center">
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-1.png">
+        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-1.png" width=49% align="top"> 
+        </a>
+
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-2.png">
+        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-2.png" width=49% align="top"> 
+        </a>
+    </div> 
+
+    <br>
+
+
+Configurer les alertes
+~~~~~~~~~~~~~~~~~~~~~~
+
+Utiliser le bouton **Enable and configure alerts** pour activer et configurer les alertes.
+
+.. raw:: html
+
+    <div align="center">
+        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/documentation/alerts-button.png" align="top"> 
+    </div> 
+
+    <br>
+
+La configuration des alertes nécessite trois points de configuration :
+
+- Configurer le client mail **mutt** pour qu'il puisse envoyer des alertes depuis l'un de vos comptes mail (gmail, etc...)
+- L'enregistrement des évènements doit fonctionner (voir '**Tester l'enregistrement des évènements**')
+- Le service **motionui** doit être en cours d'exécution
+
+
+Configuration de mutt
+*********************
+
+- Utiliser le bouton **Generate muttrc config template** pour générer un nouveau fichier de configuration mutt. Ce fichier est créé dans **/var/lib/motionui/.muttrc**.
+
+- Entrer les informations concernant l'adresse mail qui sera émettrice des messages d'alertes ainsi que le mot de passe associé. Utiliser une adresse dédiée ou bien la même adresse qui recevra les mails (et qui s'enverra des alertes à elle même du coup).
+- Entrer les informations concernant le serveur SMTP à utiliser. Par défaut le template propose d'utiliser le smtp de **gmail**, ceci est valide uniquement si votre adresse mail émettrice est une adresse gmail. Sinon vous devrez chercher sur Internet les informations concernant le serveur SMTP à utiliser pour votre compte mail :
+
+.. raw:: html
+
+    <div align="center">
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/configure-mutt.png">
+            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/configure-mutt.png" width=49% align="top"> 
+        </a>
+    </div>
+
+    <br>
+
+
+Configuration des créneaux horaires d'alertes
+*********************************************
+
+- Renseigner les **créneaux horaires** entre lesquels vous souhaitez **recevoir des alertes** si détection il y a. Pour activer les alertes **toute une journée**, il convient de renseigner 00:00 pour le créneau de début ET de fin.
+- Renseigner l'adresse mail destinataire qui recevra les alertes mails. Plusieurs adresses mails peuvent être spécifiées en les séparant par une virgule.
+
+.. raw:: html
+
+    <div align="center">
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/alert1.png">
+            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/alert1.png" width=49% align="top"> 
+        </a>
+    </div>
+
+    <br>
+
+
+Tester les alertes
+******************
+
+Une fois que les points précédemment évoqués ont été correctement configurés et que le service **motionui** est bien en cours d'exécution, il est possible de tester l'envoi d'alertes.
+
+Pour cela depuis l'interface **motion-UI** :
+
+- Désactiver temporairement l'autostart de motion si activé, pour éviter qu'il ne stoppe motion au cas où.
+- Démarrer manuellement motion (**Start capture**)
+
+Puis **faire un mouvement** devant une caméra pour déclencher une alerte.
+
 
 Sécurité
 ========
 
-Maintenant que le système de vidéo-surveillance est fonctionnel il est temps de **sécuriser** l'ensemble sans attendre.
+Maintenant que le système de vidéo-surveillance est fonctionnel il est temps de **sécuriser** l'ensemble.
 
 Je ne peux détailler toutes les configurations de sécurité à mettre en place mais voici quelques idées de base :
 
@@ -427,7 +758,7 @@ Je ne peux détailler toutes les configurations de sécurité à mettre en place
 
 En d'autres termes les URLs d'accès à ustreamer http://ADRESSE_IP_CAMERA:8888 ne doivent être accessibles que par le serveur.
 
-Pour cela mettre en place des règles de **pare-feu** (iptables par ex) sur les Raspberry Pi pour n'autoriser que le serveur à y accéder en http.
+Pour cela mettre en place des règles de **pare-feu** (iptables par exemple) sur les Raspberry Pi pour n'autoriser que le serveur à y accéder en http.
 
 - La configuration SSH des caméras doit être **renforcée** (par clé, utilisateur root non autorisé, ...)
 
