@@ -4,7 +4,7 @@
 
 Pour les inquiets qui souhaitent garder un œil sur la température du **Raspberry Pi**, il existe deux commandes permettant de récupérer une valeur de la part des capteurs de température.
 
-.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/raspberrypi/thermal.png
+.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/raspberrypi/thermal.png
 
 Commandes
 =========
@@ -21,7 +21,7 @@ La seconde qui renvoie un nombre à 5 chiffres, ex: **44912**, il suffit alors d
 
 ..  code-block:: shell
 
-    cat /sys/class/thermal/thermal_zone0/temp | awk ' { print $1 / 1000 }'
+    cat /sys/class/thermal/thermal_zone0/temp | awk '{ print $1 / 1000 }'
 
     44
 
@@ -36,7 +36,7 @@ Le fichier généré est au format HTML, ce qui permet d'ajouter quelques couleu
 
 Extrait du fichier généré :
 
-.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/raspberrypi/temp_repport.png
+.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/raspberrypi/temp_repport.png
 
 Conditions
 ----------

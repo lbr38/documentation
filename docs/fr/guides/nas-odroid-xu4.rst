@@ -11,7 +11,7 @@ Aujourd'hui, **6 ans** plus tard, mon **Odroid XU4** rempli toujours autant ses 
 .. raw:: html
 
     <div align="center">
-        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/nas-nextcloud/odroid-xu4.png" width=49% align="top"> 
+        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/nas-nextcloud/odroid-xu4.png" width=49% align="top"> 
     </div>
 
 
@@ -808,7 +808,7 @@ La mire de connexion demande quelques informations pour terminer l'installation.
 - Renseigner l'utilisateur de base de données **nextcloud** créé précédemment pour l’occasion et son mot de passe associé, ainsi que le nom de la base de données **nextcloud**
 - Puis cliquer sur **Installer**.
 
-.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/nas-nextcloud/nextcloud-first-login.png
+.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/nas-nextcloud/nextcloud-first-login.png
 
 
 Résoudre les erreurs de configuration de la page d'administration de Nextcloud
@@ -828,7 +828,7 @@ Afin d'accéder au contenu des partages créés avec **Samba**, il existe un plu
 - Depuis l'icône de profil utilisateur en haut à droite, se rendre dans **Paramètres d'administration** puis **Stockage externe** (de la partie **Administration** sur la droite). 
 - Indiquer les paramètres d'accès au partage Samba, ici le partage est sur le même hôte (localhost) et le nom du partage est **Partage**. Le répertoire sera accessible à l'utilisateur **toto**. Faire de même pour le partage **Perso** de l'utilisateur.
 
-.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/nas-nextcloud/nextcloud-samba.png
+.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/nas-nextcloud/nextcloud-samba.png
 
 
 Le(s) partage(s) devient alors accessible directement depuis l'explorateur de fichier de **Nextcloud**.

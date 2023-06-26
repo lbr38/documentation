@@ -2,7 +2,7 @@
 [Linux] - Certificat Let's Encrypt avec getssl
 ====================================
 
-.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/getssl/letsencrypt.png
+.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/getssl/letsencrypt.png
 
 **getssl** est un script bash permettant d’obtenir gratuitement un certificat SSL auprès de l’autorité de certification **Let’s Encrypt**, valide pour une durée de 3 mois.
 
