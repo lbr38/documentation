@@ -2,6 +2,8 @@
 [Raspberry Pi] - Vidéo-surveillance avancée avec ustreamer et motion/motion-UI
 ==============================================================================
 
+EN version : https://en.linuxdocs.net/en/latest/guides/raspberrypi-videosurveillance.html
+
 Introduction
 ============
 
