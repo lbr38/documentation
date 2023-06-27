@@ -5,7 +5,7 @@
 Introduction
 ============
 
-.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/raspberrypi/motion/cctv.jpg
+.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/raspberrypi/motion/cctv.jpg
 
 La vidéo-surveillance est l'un des projets phare sur **Raspberry Pi** et cela depuis les débuts de la carte.
 Des outils comme **motion** et des OS dédiés comme **motionPie** sont vite devenus une référence pour ce type d’utilisation.
@@ -28,7 +28,7 @@ Le tout étant relié au réseau local de manière **filaire**. On excluera les 
 
 Tout ceci illustré :
 
-.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/raspberrypi/motion/motion.png
+.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/raspberrypi/motion/motion.png
 
 Pré-requis
 ==========
@@ -666,12 +666,12 @@ Il est possible de configurer deux types de démarrages et arrêts automatiques 
 .. raw:: html
 
     <div align="center">
-        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-1.png">
-        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-1.png" width=49% align="top"> 
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/autostart-1.png">
+        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/autostart-1.png" width=49% align="top"> 
         </a>
 
-        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-2.png">
-        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-2.png" width=49% align="top"> 
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/autostart-2.png">
+        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/autostart-2.png" width=49% align="top"> 
         </a>
     </div> 
 
@@ -709,8 +709,8 @@ Configuration de mutt
 .. raw:: html
 
     <div align="center">
-        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/configure-mutt.png">
-            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/configure-mutt.png" width=49% align="top"> 
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/configure-mutt.png">
+            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/configure-mutt.png" width=49% align="top"> 
         </a>
     </div>
 
@@ -726,8 +726,8 @@ Configuration des créneaux horaires d'alertes
 .. raw:: html
 
     <div align="center">
-        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/alert1.png">
-            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/alert1.png" width=49% align="top"> 
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/alert1.png">
+            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/alert1.png" width=49% align="top"> 
         </a>
     </div>
 

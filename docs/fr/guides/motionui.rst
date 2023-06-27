@@ -353,12 +353,12 @@ Il est possible de configurer deux types de démarrages et arrêts automatiques 
 .. raw:: html
 
     <div align="center">
-        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-1.png">
-        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-1.png" width=49% align="top"> 
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/autostart-1.png">
+        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/autostart-1.png" width=49% align="top"> 
         </a>
 
-        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-2.png">
-        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/autostart-2.png" width=49% align="top"> 
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/autostart-2.png">
+        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/autostart-2.png" width=49% align="top"> 
         </a>
     </div> 
 
@@ -396,8 +396,8 @@ Configuration de mutt
 .. raw:: html
 
     <div align="center">
-        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/configure-mutt.png">
-            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/configure-mutt.png" width=49% align="top"> 
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/configure-mutt.png">
+            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/configure-mutt.png" width=49% align="top"> 
         </a>
     </div>
 
@@ -413,8 +413,8 @@ Configuration des créneaux horaires d'alertes
 .. raw:: html
 
     <div align="center">
-        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/alert1.png">
-            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/motionui/alert1.png" width=49% align="top"> 
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/alert1.png">
+            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/alert1.png" width=49% align="top"> 
         </a>
     </div>
 

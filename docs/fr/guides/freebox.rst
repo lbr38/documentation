@@ -2,7 +2,7 @@
 [Linux] - Accéder au disque dur de la Freebox sous Linux
 ==============================================
 
-.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/freebox/freebox.jpg
+.. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/freebox/freebox.jpg
 
 Pour les possesseurs d’une Freebox v6 (revolution), il est possible de monter le disque dur intégré à celle-ci sur une distribution **Linux** et de pouvoir ainsi accéder aux fichiers en lecture ou écriture.
 
@@ -20,8 +20,8 @@ Depuis l'interface web de la Freebox, activer les **partages Windows** et s'assu
 .. raw:: html
 
     <div align="center">
-        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/freebox/windows-share.png">
-            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/source/images/freebox/windows-share.png" width=49% align="top"> 
+        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/freebox/windows-share.png">
+            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/freebox/windows-share.png" width=49% align="top"> 
         </a>
     </div>
 

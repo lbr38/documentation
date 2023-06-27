@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'linuxdocs'
-copyright = '2022, lbr38'
+copyright = '2023, lbr38'
 author = 'lbr38'
 
 # The full version, including alpha/beta/rc tags
@@ -40,7 +40,7 @@ templates_path = ['_templates']
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = 'fr'
+language = 'en'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -78,3 +78,8 @@ html_css_files = [
 ]
 
 html_sidebars = { '**': ['globaltoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'] }
+
+intersphinx_mapping = {
+    'french': ('https://test.linuxdocs.net/fr/latest/', None),
+    'english': ('https://en.test.linuxdocs.net/en/latest/', None),
+}
