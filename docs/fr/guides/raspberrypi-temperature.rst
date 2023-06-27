@@ -2,6 +2,8 @@
 [Raspberry Pi] - Afficher la température CPU du Raspberry Pi
 ===========================================
 
+EN version : https://en.linuxdocs.net/en/latest/guides/raspberrypi-temperature.html
+
 Pour les inquiets qui souhaitent garder un œil sur la température du **Raspberry Pi**, il existe deux commandes permettant de récupérer une valeur de la part des capteurs de température.
 
 .. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/raspberrypi/thermal.png
