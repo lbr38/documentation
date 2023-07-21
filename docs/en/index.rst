@@ -4,6 +4,9 @@ linuxdocs.net
 
 .. toctree::
    :maxdepth: 1
+   :caption: GENERIC GUIDES
+
+   motion-UI, a web interface for motion <guides/motionui>
 
 .. toctree::
    :maxdepth: 1

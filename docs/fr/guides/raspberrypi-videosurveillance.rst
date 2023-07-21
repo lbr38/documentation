@@ -312,161 +312,139 @@ L'interface web se décompose en deux parties :
 - Une page **live** dédiée à la **visualisation en direct** des flux des caméras. Les caméras sont alors disposées en grilles à l'écran (du moins sur un écran PC) un peu à la manière des écrans de vidéo-surveillance d'un établissement par exemple.
 
 
-Installation de nginx et PHP
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Installation de docker et docker-compose
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Commencer par installer le repo de paquets pour **PHP 8.1** :
-
-..  code-block:: shell
-
-    apt-get install ca-certificates apt-transport-https software-properties-common wget 
-
-    # Installer la clé GPG
-    wget -qO - https://packages.sury.org/php/apt.gpg | apt-key add -
-
-    # Pour Debian 10
-    echo "deb https://packages.sury.org/php/ buster main" > /etc/apt/sources.list.d/php.list
-
-    # Pour Debian 11
-    echo "deb https://packages.sury.org/php/ bullseye main" > /etc/apt/sources.list.d/php.list
-
-Puis installer les paquets pour **nginx** et **PHP-FPM 8.1** :
+Commencer par installer le repo de paquets pour **docker** :
 
 ..  code-block:: shell
 
-    apt update
-    apt install nginx php8.1-fpm php8.1-cli php8.1-sqlite3 php8.1-curl
+    apt install ca-certificates curl gnupg -y
+    sudo install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    sudo chmod a+r /etc/apt/keyrings/docker.gpg
+    echo \ 
+    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-Créer un nouveau vhost nginx pour motion-UI :
+Puis installer **docker** et **docker-compose** :
+
+..  code-block:: shell
+
+    apt update -y
+    apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose docker-compose-plugin -y
+
+
+Installation de motion-UI
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+L'installation doit se faire avec un utilisateur lambda (non root).
+
+Cloner le repo :
+
+..  code-block:: shell
+
+    git clone https://github.com/lbr38/motion-UI.git
+
+Puis éditer le fichier **docker-compose.yml**
+
+..  code-block:: shell
+
+    cd motion-UI/docker
+    vim docker-compose.yml
+
+Et modifier la ligne suivante :
+
+..  code-block:: shell
+
+    fqdn: motionui.example.com (à remplacer par le nom de domaine dédié à motion-UI, ou bien un nom d'hôte local si vous n'avez pas de nom de domaine)
+
+Builder et exécuter l'image docker :
+
+..  code-block:: shell
+
+    docker-compose up -d
+
+Deux volumes persistants sont alors créés sur le système hôte :
+
+- **motionui_data** (/var/lib/docker/volumes/motionui-data/) : contient la base de données de motion-UI
+- **motionui-captures** (/var/lib/docker/volumes/motionui-captures/) : contient les captures d'images et vidéos réalisées par motion (à conserver donc!)
+
+Une fois l'installation terminée, motion-UI est accessible directement (de manière non sécurisée car sans certificat pour le moment) depuis http://<IP_SERVEUR>:8080
+
+Utiliser les identifiants par défaut pour s'authentifier :
+
+- Login : **admin**
+- Mot de passe : **motionui**
+
+Une fois connecté, il est possible de modifier son mot de passe depuis l'espace utilisateur (en haut à droite).
+
+Poursuivre par la mise en place d'un reverse-proxy pour accéder à motion-UI par un nom de domaine dédié avec certificat SSL.
+
+
+Reverse-proxy nginx
+~~~~~~~~~~~~~~~~~~~
+
+Installer nginx :
+
+..  code-block:: shell
+
+    apt install nginx -y
+
+Supprimer le vhost par défaut :
+
+..  code-block:: shell
+
+    rm /etc/nginx/sites-enabled/default
+
+Puis créer un nouveau vhost dédié à **motion-UI** :
 
 ..  code-block:: shell
 
     vim /etc/nginx/sites-available/motionui.conf
 
-Puis insérer le contenu désiré, deux cas sont possibles selon votre utilisation :
+Puis insérer le contenu suivant en adaptant certaines valeurs :
 
-- Configuration locale sans certificat SSL
-- Configuration avec nom de domaine et certificat SSL
-
-**Configuration locale sans certificat SSL**
-
-Insérer le contenu suivant en adaptant certaines valeurs :
-
-- Le paramètre SERVER-IP = l’adresse IP du serveur
+- Le paramètre <SERVER-IP> = l’adresse IP du serveur
+- Les paramètres <FQDN> = le nom de domaine dédié à motion-UI
+- Les chemins vers le certificat SSL et la clé privée associée (<PATH-TO-CERTIFICATE> et <PATH-TO-PRIVATE-KEY>)
 
 ..  code-block:: shell
 
-    # Path to PHP unix socket
-    upstream php-handler {
-        server unix:/run/php/php8.1-fpm.sock;
+    upstream motionui_docker {
+        server 127.0.0.1:8080;
+    }
+
+    # Disable some logging
+    map $request_uri $loggable {
+        /ajax/controller.php 0;
+        default 1;
     }
 
     server {
-        # Set motion-UI web directory location
-        set $WWW_DIR '/var/www/motionui'; # default is /var/www/motionui
+        listen <SERVER-IP>:80;
+        server_name <FQDN>;
 
-        listen SERVER-IP:80;
-        server_name SERVER-IP;
+        access_log /var/log/nginx/<FQDN>_access.log combined if=$loggable;
+        error_log /var/log/nginx/<FQDN>_error.log;
 
-        # Path to log files
-        access_log /var/log/nginx/motionui_access.log combined;
-        error_log /var/log/nginx/motionui_error.log;
-
-        # Add headers to serve security related headers
-        add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload;" always;
-        add_header Referrer-Policy "no-referrer" always;
-        add_header X-Content-Type-Options "nosniff" always;
-        add_header X-Download-Options "noopen" always;
-        add_header X-Frame-Options "SAMEORIGIN" always;
-        add_header X-Permitted-Cross-Domain-Policies "none" always;
-        add_header X-Robots-Tag "none" always;
-        add_header X-XSS-Protection "1; mode=block" always;
-
-        # Remove X-Powered-By, which is an information leak
-        fastcgi_hide_header X-Powered-By;
-
-        # Path to motionui root dir
-        root $WWW_DIR/public;
-
-        # Enable gzip
-        gzip on;
-        gzip_vary on;
-        gzip_comp_level 4;
-        gzip_min_length 256;
-        gzip_proxied expired no-cache no-store private no_last_modified no_etag auth;
-        gzip_types application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
-
-        location = /robots.txt {
-            deny all;
-            log_not_found off;
-            access_log off;
-        }
-
-        location / {
-            rewrite ^ /index.php;
-        }
-
-        location ~ \.php$ {
-            root $WWW_DIR/public;
-            include fastcgi_params;
-            fastcgi_param SCRIPT_FILENAME $request_filename;
-            # Avoid sending the security headers twice
-            fastcgi_param modHeadersAvailable true;
-            fastcgi_pass php-handler;
-            fastcgi_intercept_errors on;
-            fastcgi_request_buffering off;
-        }
-
-        location ~ \.(?:css|js|svg|gif|map|png|html|ttf|ico|jpg|jpeg)$ {
-            try_files $uri $uri/ =404;
-            access_log off;
-        }
-    }
-
-
-**Configuration avec nom de domaine et certificat SSL**
- 
-Insérer le contenu suivant en adaptant certaines valeurs :
-
-- Le paramètre SERVER-IP = l’adresse IP du serveur
-- Les paramètres SERVERNAME.MYDOMAIN.COM = le nom de domaine dédié à motion-UI
-- Les chemins vers le certificat SSL et la clé privée associée (PATH-TO-CERTIFICATE.crt et PATH-TO-PRIVATE-KEY.key)
-
-..  code-block:: shell
-
-    # Path to PHP unix socket
-    upstream php-handler {
-        server unix:/run/php/php8.1-fpm.sock;
-    }
-
-    server {
-        listen SERVER-IP:80;
-        server_name SERVERNAME.MYDOMAIN.COM;
-
-        # Force https
         return 301 https://$server_name$request_uri;
-
-        # Path to log files
-        access_log /var/log/nginx/motionui_access.log;
-        error_log /var/log/nginx/motionui_error.log;
     }
-
+    
     server {
-        # Set motion-UI web directory location
-        set $WWW_DIR '/var/www/motionui'; # default is /var/www/motionui
-
-        listen SERVER-IP:443 ssl;
-        server_name SERVERNAME.MYDOMAIN.COM;
-
-        # Path to log files
-        access_log /var/log/nginx/motionui_ssl_access.log combined;
-        error_log /var/log/nginx/motionui_ssl_error.log;
+        listen <SERVER-IP>:443 ssl;
+        server_name <FQDN>;
 
         # Path to SSL certificate/key files
-        ssl_certificate PATH-TO-CERTIFICATE.crt;
-        ssl_certificate_key PATH-TO-PRIVATE-KEY.key;
+        ssl_certificate <PATH_TO_CERTIFICATE>;
+        ssl_certificate_key <PATH_TO_PRIVATE_KEY>;
 
-        # Add headers to serve security related headers
+        # Path to log files
+        access_log /var/log/nginx/<FQDN>_ssl_access.log combined if=$loggable;
+        error_log /var/log/nginx/<FQDN>_ssl_error.log;
+    
+        # Security headers
         add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload;" always;
         add_header Referrer-Policy "no-referrer" always;
         add_header X-Content-Type-Options "nosniff" always;
@@ -478,43 +456,16 @@ Insérer le contenu suivant en adaptant certaines valeurs :
 
         # Remove X-Powered-By, which is an information leak
         fastcgi_hide_header X-Powered-By;
-
-        # Path to motionui root dir
-        root $WWW_DIR/public;
-
-        # Enable gzip
-        gzip on;
-        gzip_vary on;
-        gzip_comp_level 4;
-        gzip_min_length 256;
-        gzip_proxied expired no-cache no-store private no_last_modified no_etag auth;
-        gzip_types application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
-
-        location = /robots.txt {
-            deny all;
-            log_not_found off;
-            access_log off;
-        }
-
+    
         location / {
-            rewrite ^ /index.php;
-        }
-
-        location ~ \.php$ {
-            root $WWW_DIR/public;
-            include fastcgi_params;
-            fastcgi_param SCRIPT_FILENAME $request_filename;
-            fastcgi_param HTTPS on;
-            # Avoid sending the security headers twice
-            fastcgi_param modHeadersAvailable true;
-            fastcgi_pass php-handler;
-            fastcgi_intercept_errors on;
-            fastcgi_request_buffering off;
-        }
-
-        location ~ \.(?:css|js|svg|gif|map|png|html|ttf|ico|jpg|jpeg)$ {
-            try_files $uri $uri/ =404;
-            access_log off;
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_pass http://motionui_docker;
         }
     }
 
@@ -528,56 +479,15 @@ Redémarrer nginx pour appliquer :
 
 ..  code-block:: shell
 
-    systemctl restart nginx
+    nginx -t && systemctl restart nginx
 
-
-Installation de motion-UI
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Installer le repo de motion-UI :
-
-..  code-block:: shell
-
-    curl -sS https://packages.bespin.ovh/repo/gpgkeys/packages.bespin.ovh_deb.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/packages.bespin.ovh_deb.gpg
-
-    # Debian 10
-    echo "deb https://packages.bespin.ovh/repo/motionui/buster/main_prod buster main" > /etc/apt/sources.list.d/motionui.list
-
-    # Debian 11
-    echo "deb https://packages.bespin.ovh/repo/motionui/bullseye/main_prod bullseye main" > /etc/apt/sources.list.d/motionui.list
-
-Installer motion-UI :
-
-..  code-block:: shell
-
-    apt update
-    apt install motionui
-
-L'installation se chargera d'installer motion en version 4.4 minimum si besoin.
-
-Redémarrer PHP-FPM après l'installation pour appliquer certains droits :
-
-..  code-block:: shell
-
-    systemctl restart php8.1-fpm
-
-Enfin, accéder à motion-UI depuis un navigateur web, en utilisant l'adresse IP du serveur ou le nom de domaine configuré (selon la configuration de vhost mise en place) :
-
-- http://SERVER-IP (IP du serveur, sans certificat SSL)
-- https://SERVERNAME.MYDOMAIN.COM (nom de domaine, avec certificat SSL)
-
-Utiliser les identifiants par défaut pour s'authentifier :
-
-- Login : **admin**
-- Mot de passe : **motionui**
-
-Une fois connecté, il est possible de modifier son mot de passe depuis l'espace utilisateur (en haut à droite).
+motion-UI est alors accessible depuis https://<FQDN>
 
 
 Ajout d'une caméra
 ~~~~~~~~~~~~~~~~~~
 
-Utiliser le bouton **+** en haut de page pour ajouter une caméra.
+Utiliser le bouton **+** pour ajouter une caméra.
 
 - Préciser si la caméra diffuse un **flux video** ou seulement une **image statique** qui nécessite un rechargement (si oui préciser l'intervalle de rafraîchissement en secondes).
 - Préciser alors un nom et l'URL vers le **flux video/image** de la caméra
@@ -693,30 +603,10 @@ Utiliser le bouton **Enable and configure alerts** pour activer et configurer le
 
     <br>
 
-La configuration des alertes nécessite trois points de configuration :
+La configuration des alertes nécessite deux points de configuration :
 
-- Configurer le client mail **mutt** pour qu'il puisse envoyer des alertes depuis l'un de vos comptes mail (gmail, etc...)
+- Un enregistrement **SPF** pour le nom de domaine dédié à motion-UI.
 - L'enregistrement des évènements doit fonctionner (voir '**Tester l'enregistrement des évènements**')
-- Le service **motionui** doit être en cours d'exécution
-
-
-Configuration de mutt
-*********************
-
-- Utiliser le bouton **Generate muttrc config template** pour générer un nouveau fichier de configuration mutt. Ce fichier est créé dans **/var/lib/motionui/.muttrc**.
-
-- Entrer les informations concernant l'adresse mail qui sera émettrice des messages d'alertes ainsi que le mot de passe associé. Utiliser une adresse dédiée ou bien la même adresse qui recevra les mails (et qui s'enverra des alertes à elle même du coup).
-- Entrer les informations concernant le serveur SMTP à utiliser. Par défaut le template propose d'utiliser le smtp de **gmail**, ceci est valide uniquement si votre adresse mail émettrice est une adresse gmail. Sinon vous devrez chercher sur Internet les informations concernant le serveur SMTP à utiliser pour votre compte mail :
-
-.. raw:: html
-
-    <div align="center">
-        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/configure-mutt.png">
-            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/configure-mutt.png" width=49% align="top"> 
-        </a>
-    </div>
-
-    <br>
 
 
 Configuration des créneaux horaires d'alertes
