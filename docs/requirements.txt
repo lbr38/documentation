@@ -1,1 +1,2 @@
 sphinx-multiproject
+sphinx-rtd-theme
