@@ -312,8 +312,8 @@ L'interface web se décompose en deux parties :
 - Une page **live** dédiée à la **visualisation en direct** des flux des caméras. Les caméras sont alors disposées en grilles à l'écran (du moins sur un écran PC) un peu à la manière des écrans de vidéo-surveillance d'un établissement par exemple.
 
 
-Installation de docker et docker-compose
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Installation de docker
+~~~~~~~~~~~~~~~~~~~~~~
 
 Commencer par installer le repo de paquets pour **docker** :
 
@@ -328,12 +328,12 @@ Commencer par installer le repo de paquets pour **docker** :
     "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-Puis installer **docker** et **docker-compose** :
+Puis installer **docker** :
 
 ..  code-block:: shell
 
     apt update -y
-    apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose docker-compose-plugin -y
+    apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin -y
 
 
 Installation de motion-UI
@@ -341,35 +341,22 @@ Installation de motion-UI
 
 L'installation doit se faire avec un utilisateur lambda (non root).
 
-Cloner le repo :
+Installer la dernière image disponible en adaptant la valeur de ``FQDN`` par votre nom de domaine dédié à motion-UI :
 
 ..  code-block:: shell
 
-    git clone https://github.com/lbr38/motion-UI.git
-
-Puis éditer le fichier **docker-compose.yml**
-
-..  code-block:: shell
-
-    cd motion-UI/docker
-    vim docker-compose.yml
-
-Et modifier la ligne suivante :
-
-..  code-block:: shell
-
-    fqdn: motionui.example.com (à remplacer par le nom de domaine dédié à motion-UI, ou bien un nom d'hôte local si vous n'avez pas de nom de domaine)
-
-Builder et exécuter l'image docker :
-
-..  code-block:: shell
-
-    docker-compose up -d
+    docker run -d --restart always --name motionui \
+       -e FQDN=motionui.example.com \
+       -p 8080:8080 \
+       -v /etc/localtime:/etc/localtime:ro \
+       -v /var/lib/docker/volumes/motionui-data:/var/lib/motionui \
+       -v /var/lib/docker/volumes/motionui-captures:/var/lib/motion \
+       lbr38/motionui:latest
 
 Deux volumes persistants sont alors créés sur le système hôte :
 
-- **motionui_data** (/var/lib/docker/volumes/motionui-data/) : contient la base de données de motion-UI
-- **motionui-captures** (/var/lib/docker/volumes/motionui-captures/) : contient les captures d'images et vidéos réalisées par motion (à conserver donc!)
+- **motionui_data** ``/var/lib/docker/volumes/motionui-data/`` : contient la base de données de motion-UI
+- **motionui-captures** ``/var/lib/docker/volumes/motionui-captures/`` : contient les captures d'images et vidéos réalisées par motion (à conserver donc!)
 
 Une fois l'installation terminée, motion-UI est accessible directement (de manière non sécurisée car sans certificat pour le moment) depuis http://<IP_SERVEUR>:8080
 

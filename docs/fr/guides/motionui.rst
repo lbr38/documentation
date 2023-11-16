@@ -61,7 +61,7 @@ Il est préconisé de dédier un serveur uniquement à l'exécution de **motion-
 
 L'installation doit se faire en **root** ou avec **sudo**.
 
-Installer docker et docker-compose :
+Installer docker :
 
 ..  code-block:: shell
 
@@ -77,7 +77,7 @@ Installer docker et docker-compose :
 
     # Installation de docker
     apt update -y
-    apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose docker-compose-plugin -y
+    apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin -y
 
 Il faudra également :
 
@@ -95,35 +95,22 @@ Installation
 
 L'installation doit se faire avec un utilisateur lambda (non root).
 
-Cloner le repo :
+Installer la dernière image disponible en adaptant la valeur de ``FQDN`` par votre nom de domaine dédié à motion-UI :
 
 ..  code-block:: shell
 
-    git clone https://github.com/lbr38/motion-UI.git
-
-Puis éditer le fichier **docker-compose.yml**
-
-..  code-block:: shell
-
-    cd motion-UI/docker
-    vim docker-compose.yml
-
-Et modifier la ligne suivante :
-
-..  code-block:: shell
-
-    fqdn: motionui.example.com (à remplacer par le nom de domaine dédié à motion-UI)
-
-Builder et exécuter l'image docker :
-
-..  code-block:: shell
-
-    docker-compose up -d
+    docker run -d --restart always --name motionui \
+       -e FQDN=motionui.example.com \
+       -p 8080:8080 \
+       -v /etc/localtime:/etc/localtime:ro \
+       -v /var/lib/docker/volumes/motionui-data:/var/lib/motionui \
+       -v /var/lib/docker/volumes/motionui-captures:/var/lib/motion \
+       lbr38/motionui:latest
 
 Deux volumes persistants sont alors créés sur le système hôte :
 
-- **motionui_data** (/var/lib/docker/volumes/motionui-data/) : contient la base de données de motion-UI
-- **motionui-captures** (/var/lib/docker/volumes/motionui-captures/) : contient les captures d'images et vidéos réalisées par motion (à conserver donc!)
+- **motionui_data** ``/var/lib/docker/volumes/motionui-data/`` : contient la base de données de motion-UI
+- **motionui-captures** ``/var/lib/docker/volumes/motionui-captures/`` : contient les captures d'images et vidéos réalisées par motion (à conserver donc!)
 
 Une fois l'installation terminée, poursuivre par la mise en place d'un reverse-proxy pour accéder à motion-UI par son nom de domaine.
 
@@ -133,8 +120,7 @@ Reverse-proxy
 
 La mise en place d'un reverse-proxy va permettre d'accéder à **motion-UI** avec le nom de domaine qui lui a été dédié et de manière sécurisée (HTTPS).
 
-L'installation doit se faire en **root** ou avec **sudo**
-
+L'installation doit se faire en **root** ou avec **sudo**.
 
 Installer **nginx** si ce n'est pas déjà fait :
 

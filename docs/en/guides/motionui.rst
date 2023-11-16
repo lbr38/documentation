@@ -59,7 +59,7 @@ It is recommended to dedicate a server solely for running **motion-UI**, and it 
 
 The installation must be done as **root** or with **sudo**.
 
-Install Docker and Docker Compose:
+Install docker:
 
 .. code-block:: shell
 
@@ -75,7 +75,7 @@ Install Docker and Docker Compose:
 
     # Installing Docker
     apt update -y
-    apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose docker-compose-plugin -y
+    apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin -y
 
 Additionally, you will need:
 
@@ -93,35 +93,22 @@ Installation
 
 The installation should be done with a regular user (non-root).
 
-Clone the repository:
+Pull the latest available image and adapt the ``FQDN`` value to your domain name:
 
 .. code-block:: shell
 
-    git clone https://github.com/lbr38/motion-UI.git
-
-Then, edit the **docker-compose.yml** file:
-
-.. code-block:: shell
-
-    cd motion-UI/docker
-    vim docker-compose.yml
-
-And modify the following line:
-
-.. code-block:: yaml
-
-    fqdn: motionui.example.com (replace with the domain name dedicated to motion-UI)
-
-Build and run the Docker image:
-
-.. code-block:: shell
-
-    docker-compose up -d
+    docker run -d --restart always --name motionui \
+       -e FQDN=motionui.example.com \
+       -p 8080:8080 \
+       -v /etc/localtime:/etc/localtime:ro \
+       -v /var/lib/docker/volumes/motionui-data:/var/lib/motionui \
+       -v /var/lib/docker/volumes/motionui-captures:/var/lib/motion \
+       lbr38/motionui:latest
 
 Two persistent volumes are created on the host system:
 
-- **motionui_data** (/var/lib/docker/volumes/motionui-data/): contains the motion-UI database.
-- **motionui-captures** (/var/lib/docker/volumes/motionui-captures/): contains the captures of images and videos taken by motion (keep them!).
+- **motionui_data** ``/var/lib/docker/volumes/motionui-data/``: contains the motion-UI database.
+- **motionui-captures** ``/var/lib/docker/volumes/motionui-captures/``: contains the captures of images and videos taken by motion (keep them!).
 
 Once the installation is complete, proceed with setting up a reverse-proxy to access motion-UI via its domain name.
 
