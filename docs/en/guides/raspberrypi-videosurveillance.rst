@@ -43,7 +43,7 @@ For the camera, I use a waterproof USB dome camera purchased from `Amazon <https
 - **1 central server**
 
 Preferably a "home server," **as powerful as possible**. It is advisable to avoid using an ARM board that may quickly become overwhelmed during video processing. Keep in mind that the more cameras there are, the heavier the processing will be.
-The server should run an OS such as Debian, CentOS... where it is possible to install **motion** in a sufficiently recent version.
+The server should run an OS such as Debian, CentOS...
 
 Prepare each component:
 
@@ -247,7 +247,7 @@ Still as **pi**, create a cron task that will automatically start the stream aft
 Server Configuration
 --------------------
 
-The goal here is to set up **motion** and **motion-UI** (web interface) to analyze the camera streams in the house and detect motion.
+The goal here is to set up **motion-UI** (a web interface for **motion**) to analyze the camera streams in the house and detect motion.
 
 Notes:
 
