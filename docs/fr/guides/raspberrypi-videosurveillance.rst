@@ -46,7 +46,7 @@ Pour la caméra, j'utilise un dôme USB étanche acheté sur `amazon <https://ww
 - **1 serveur central**
 
 De préférence un serveur "maison", **le plus puissant possible**. Il est préférable d'éviter d'utiliser une carte ARM qui risque de se retrouver rapidement surchargée lors des traitements vidéos. Il faut prendre en compte que plus il y aura de caméras et plus le traitement sera lourd.
-Le serveur devra faire tourner un OS tel que Debian, CentOS... là où il est possible d'installer **motion** dans une version suffisamment récente.
+Le serveur devra faire tourner un OS tel que Debian, CentOS...
 
 Préparer chaque élément :
 
@@ -252,7 +252,7 @@ Toujours en tant que **pi** créer une tâche cron qui démarrera le stream auto
 Configuration du serveur
 ------------------------
 
-Le but ici est de mettre en place **motion** et **motion-UI** (interface web) pour analyser le flux des caméras disposées dans l'habitation et détecter des mouvements.
+Le but ici est de mettre en place **motion-UI** (interface web) pour analyser le flux des caméras disposées dans l'habitation et détecter des mouvements.
 
 Notes :
 
