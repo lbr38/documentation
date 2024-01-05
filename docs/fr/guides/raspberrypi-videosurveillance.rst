@@ -276,30 +276,30 @@ Elle permet en outre de mettre en place des **alertes mail** en cas de détectio
 .. raw:: html
 
     <div align="center">
-        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png">
-        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-1.png" width=25% align="top"> 
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/0ce02da3-c23d-444a-9435-7b7c0ea66b13">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/0ce02da3-c23d-444a-9435-7b7c0ea66b13" width=25% align="top"> 
         </a>
 
-        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-events.png">
-        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-events.png" width=25% align="top">
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/7c188133-d267-46a3-b12c-8c7401d12c15">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/7c188133-d267-46a3-b12c-8c7401d12c15" width=25% align="top">
         </a>
 
-        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-metrics.png">
-        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-metrics.png" width=25% align="top">
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/b01953b0-5c60-4ede-ab25-e09d0f575d39">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/b01953b0-5c60-4ede-ab25-e09d0f575d39" width=25% align="top">
         </a>
     </div>
     <br>
     <div align="center">
-        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-autostart.png">
-        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-autostart.png" width=25% align="top">
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/d238e11d-ac03-4bc0-9112-a7d1c10c960d">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/d238e11d-ac03-4bc0-9112-a7d1c10c960d" width=25% align="top">
         </a>
 
-        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-autostart.png">
-        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-autostart.png" width=25% align="top">
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/98f945c9-d03e-4ab3-8041-ea5ac50d3fdb">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/98f945c9-d03e-4ab3-8041-ea5ac50d3fdb" width=25% align="top">
         </a>
 
-        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png">
-        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/motion-UI-4.png" width=25% align="top">
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/94f914a0-62f4-4ebd-947e-ce7aed78a49b">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/94f914a0-62f4-4ebd-947e-ce7aed78a49b" width=25% align="top">
         </a>
     </div>
 
@@ -485,8 +485,8 @@ Utiliser le bouton **+** pour ajouter une caméra.
 .. raw:: html
 
     <div align="center">
-        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/documentation/camera/add.gif">
-        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/documentation/camera/add.gif" align="top"> 
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/79ab21c4-e2e9-448f-84d8-18deff43c8c9">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/79ab21c4-e2e9-448f-84d8-18deff43c8c9" align="top"> 
         </a>
     </div> 
 
@@ -506,8 +506,8 @@ Si le besoin de modifier la configuration d'une caméra se fait sentir, il suffi
 .. raw:: html
 
     <div align="center">
-        <a href="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/documentation/camera/configure.gif">
-        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/documentation/camera/configure.gif" align="top"> 
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/5fc1c6ee-0557-403e-8492-ab1efabf84f9">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/5fc1c6ee-0557-403e-8492-ab1efabf84f9" align="top"> 
         </a>
     </div> 
 
@@ -534,7 +534,7 @@ Pour cela depuis l'interface **motion-UI** : démarrer manuellement motion (bout
 .. raw:: html
 
     <div align="center">
-        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/documentation/start-stop-button.png" align="top"> 
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/34fd7ac9-0ea0-4b5f-95a0-bbdb9f7b5c01" align="top"> 
     </div> 
 
     <br>
@@ -552,7 +552,7 @@ Utiliser le bouton **Enable and configure autostart** pour activer et configurer
 .. raw:: html
 
     <div align="center">
-        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/documentation/autostart-button.png" align="top"> 
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/e3007d7e-f4de-41c2-8c0d-506c393ad59f" align="top"> 
     </div> 
 
     <br>
@@ -565,12 +565,12 @@ Il est possible de configurer deux types de démarrages et arrêts automatiques 
 .. raw:: html
 
     <div align="center">
-        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/autostart-1.png">
-        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/autostart-1.png" width=49% align="top"> 
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/db76d399-3f3a-4118-a24d-3150fc0bfd03">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/db76d399-3f3a-4118-a24d-3150fc0bfd03" width=49% align="top"> 
         </a>
 
-        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/autostart-2.png">
-        <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/autostart-2.png" width=49% align="top"> 
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/09c956f1-ed7a-4c2b-85e9-57824ed6f6ad">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/09c956f1-ed7a-4c2b-85e9-57824ed6f6ad" width=49% align="top"> 
         </a>
     </div> 
 
@@ -585,7 +585,7 @@ Utiliser le bouton **Enable and configure alerts** pour activer et configurer le
 .. raw:: html
 
     <div align="center">
-        <img src="https://raw.githubusercontent.com/lbr38/resources/main/screenshots/motionui/documentation/alerts-button.png" align="top"> 
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/7a630e6c-d271-455f-9921-b8adc84d1e49" align="top"> 
     </div> 
 
     <br>
@@ -605,8 +605,8 @@ Configuration des créneaux horaires d'alertes
 .. raw:: html
 
     <div align="center">
-        <a href="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/alert1.png">
-            <img src="https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/motionui/alert1.png" width=49% align="top"> 
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/b0e2164b-8f07-4850-8538-7b60cbab26d4">
+            <img src="https://github.com/lbr38/motion-UI/assets/54670129/b0e2164b-8f07-4850-8538-7b60cbab26d4" width=49% align="top"> 
         </a>
     </div>
 
