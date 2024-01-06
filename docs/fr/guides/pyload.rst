@@ -36,8 +36,8 @@ Installer quelques dépendances pour pyload et notamment de quoi créer un virtu
 
     apt install python3-venv libjpeg8-dev
 
-Installation
-============
+Installation de pyload
+======================
 
 En tant que **root**, se loguer en tant que **pyload** :
 
@@ -319,6 +319,35 @@ Tester l’accès dans le navigateur, l’interface de pyload devrait être acce
 
 - Utilisateur : **pyload**
 - Mot de passe : **pyload** (penser à le modifier)
+
+
+Mise à jour de pyload
+=====================
+
+Depuis le compte **root**, se loguer en tant que **pyload** :
+
+..  code-block:: shell
+
+    su pyload -s /bin/bash
+
+Se placer dans l’environnement virtuel :
+
+..  code-block:: shell
+
+    cd /home/pyload
+    . ./pyload/bin/activate
+
+Mettre à jour :
+
+..  code-block:: shell
+
+    pip3 install --pre --upgrade pyload-ng[all]
+
+Sortir de l’environnement virtuel :
+
+..  code-block:: shell
+
+    deactivate
 
 .. raw:: html
 
