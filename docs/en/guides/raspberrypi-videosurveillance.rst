@@ -264,47 +264,49 @@ Overview
 
 It is an open-source project available on GitHub: https://github.com/lbr38/motion-UI
 
-The interface is designed to be very simplistic and **responsive**, allowing for mobile usage without the need to install an application. The large main buttons enable quick actions to be performed precisely on a mobile device, even when visibility is not optimal (e.g., sunlight, movements).
+The interface presents itself as very simplistic and **responsive**, allowing for mobile usage (Android application available here: https://github.com/lbr38/motion-UI/releases/tag/android-1.0).
 
-Furthermore, it allows for setting up **email alerts** upon motion detection and the **automatic activation** or deactivation of video surveillance based on a specified time range or the presence of "trusted" devices on the local network (e.g., smartphones).
+It also allows the setup of **email alerts** in case of motion detection, and it can automatically enable or disable video surveillance based on a specified time range or the presence of "trusted" devices on the local network (e.g., smartphones).
 
 .. raw:: html
 
     <div align="center">
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/0ce02da3-c23d-444a-9435-7b7c0ea66b13">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/0ce02da3-c23d-444a-9435-7b7c0ea66b13" width=25% align="top"> 
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/fb0f78f3-10f6-45ef-8e9a-2ce119795493">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/fb0f78f3-10f6-45ef-8e9a-2ce119795493" width=25% align="top"> 
         </a>
 
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/7c188133-d267-46a3-b12c-8c7401d12c15">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/7c188133-d267-46a3-b12c-8c7401d12c15" width=25% align="top">
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/fcd1f4d6-b80d-43e3-8cf0-f09abe9f0e37">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/fcd1f4d6-b80d-43e3-8cf0-f09abe9f0e37" width=25% align="top">
         </a>
 
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/b01953b0-5c60-4ede-ab25-e09d0f575d39">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/b01953b0-5c60-4ede-ab25-e09d0f575d39" width=25% align="top">
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/e4194032-8163-4944-bc9d-4783018054cf">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/e4194032-8163-4944-bc9d-4783018054cf" width=25% align="top">
         </a>
     </div>
     <br>
     <div align="center">
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/d238e11d-ac03-4bc0-9112-a7d1c10c960d">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/d238e11d-ac03-4bc0-9112-a7d1c10c960d" width=25% align="top">
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/6c1e40d7-950f-4593-9243-5ec4be81e1ea">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/6c1e40d7-950f-4593-9243-5ec4be81e1ea" width=25% align="top">
         </a>
 
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/98f945c9-d03e-4ab3-8041-ea5ac50d3fdb">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/98f945c9-d03e-4ab3-8041-ea5ac50d3fdb" width=25% align="top">
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/28a7d13e-4001-4bd0-822d-2e9b83374cc8">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/28a7d13e-4001-4bd0-822d-2e9b83374cc8" width=25% align="top">
         </a>
 
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/94f914a0-62f4-4ebd-947e-ce7aed78a49b">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/94f914a0-62f4-4ebd-947e-ce7aed78a49b" width=25% align="top">
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/3fadc296-4e51-48d1-9454-f956e43f3ec7">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/3fadc296-4e51-48d1-9454-f956e43f3ec7" width=25% align="top">
         </a>
     </div>
 
     <br>
 
 
-The web interface is divided into two parts:
+The interface is divided into several tabs:
 
-- The main page primarily dedicated to **motion**, allowing you to start/stop the service or configure motion detection alerts. Some graphs summarize the recent activity of the service and events that have occurred. It also provides the ability to view captured images or videos directly from the web page.
-- A **live** page dedicated to the **real-time visualization** of camera streams. The cameras are displayed in grids on the screen, similar to video surveillance screens in establishments, for example.
+- An tab dedicated to cameras and **live stream**. The cameras are then arranged in grids on the screen (at least on a PC screen), somewhat like the surveillance screens of a facility, for example.
+- An tab for starting and stopping the service **motion** and associated services (**automatic startup**, **alerts** in case of detection).
+- An tab listing the **events** that have occurred and been detected by motion, with the ability to view the images or videos captured directly from the web page.
+- An tab with a few graphs summarizing the recent activity of the motion service and the events that have occurred.
 
 
 Installing docker
@@ -315,9 +317,11 @@ Start by installing the package repository for **docker**:
 ..  code-block:: shell
 
     apt install ca-certificates curl gnupg -y
+
     sudo install -m 0755 -d /etc/apt/keyrings
     curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
     sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
     echo \ 
     "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
     "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
@@ -474,24 +478,20 @@ Use the **+** button to add a camera.
 
 - Specify if the camera provides a **video stream** or just a **static image** that requires reloading (if yes, specify the refresh interval in seconds).
 - Provide a name and the URL to the camera's **video/image stream**.
-- Choose whether or not to relay the video/image stream on motion-UI (in the general settings, you can then choose to display this stream on the main page, on the **live** page, or both).
 - Choose to enable motion detection on this camera. Note that if the selected stream is a static image, a second URL pointing to a video stream needs to be specified because motion is unable to perform motion detection on a stream of static images (it is not capable of automatically reloading the image).
-- Specify a username/password if the stream is protected (beta).
+- Specify a username/password if the stream is protected.
 
 .. raw:: html
 
     <div align="center">
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/79ab21c4-e2e9-448f-84d8-18deff43c8c9">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/79ab21c4-e2e9-448f-84d8-18deff43c8c9" align="top"> 
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/29ea957c-0e08-4897-b952-e0a7f591e3f8">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/29ea957c-0e08-4897-b952-e0a7f591e3f8" align="top"> 
         </a>
     </div> 
 
     <br>
 
-Once the camera is added:
-
-- motion-UI automatically creates the **motion configuration** for this camera. Note that the created motion configuration is relatively minimalistic but sufficient to function in all cases. It is possible to modify this configuration in advanced mode and add custom parameters if needed (see **Camera Configuration** section).
-- The camera stream becomes visible on the main page, the **live** page, or both, depending on the chosen global configuration.
+Once the camera is added, motion-UI automatically creates the **motion configuration** for this camera. Note that the created motion configuration is relatively minimalistic but sufficient to function in all cases. It is possible to modify this configuration in advanced mode and add custom parameters if needed (see **Camera Configuration** section).
 
 
 Camera Configuration
@@ -502,8 +502,8 @@ If there is a need to modify the configuration of a camera, simply click on the 
 .. raw:: html
 
     <div align="center">
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/5fc1c6ee-0557-403e-8492-ab1efabf84f9">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/5fc1c6ee-0557-403e-8492-ab1efabf84f9" align="top"> 
+        <a href="https://github.com/lbr38/motion-UI/assets/54670129/42c5704e-0773-4b78-a302-3e277755e71a">
+        <img src="https://github.com/lbr38/motion-UI/assets/54670129/42c5704e-0773-4b78-a302-3e277755e71a" align="top"> 
         </a>
     </div> 
 
