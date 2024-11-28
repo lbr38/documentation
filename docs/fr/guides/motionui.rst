@@ -18,30 +18,30 @@ Elle permet en outre de mettre en place des **alertes mail** en cas de détectio
 .. raw:: html
 
     <div align="center">
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/fb0f78f3-10f6-45ef-8e9a-2ce119795493">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/fb0f78f3-10f6-45ef-8e9a-2ce119795493" width=25% align="top"> 
+        <a href="https://github.com/user-attachments/assets/bdae2550-819d-40c4-895b-541ee64bdc03">
+        <img src="https://github.com/user-attachments/assets/bdae2550-819d-40c4-895b-541ee64bdc03" width=25% align="top"> 
         </a>
 
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/fcd1f4d6-b80d-43e3-8cf0-f09abe9f0e37">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/fcd1f4d6-b80d-43e3-8cf0-f09abe9f0e37" width=25% align="top">
+        <a href="https://github.com/user-attachments/assets/afe3e48a-3a26-4e75-a6a7-a97b2ac2bf9e">
+        <img src="https://github.com/user-attachments/assets/afe3e48a-3a26-4e75-a6a7-a97b2ac2bf9e" width=25% align="top">
         </a>
 
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/e4194032-8163-4944-bc9d-4783018054cf">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/e4194032-8163-4944-bc9d-4783018054cf" width=25% align="top">
+        <a href="https://github.com/user-attachments/assets/a2472f8b-24fc-4967-bb6a-f8ad8af95270">
+        <img src="https://github.com/user-attachments/assets/a2472f8b-24fc-4967-bb6a-f8ad8af95270" width=25% align="top">
         </a>
     </div>
     <br>
     <div align="center">
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/6c1e40d7-950f-4593-9243-5ec4be81e1ea">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/6c1e40d7-950f-4593-9243-5ec4be81e1ea" width=25% align="top">
+        <a href="https://github.com/user-attachments/assets/cb9137c7-484a-4c2c-ad0f-c33ef7a602bd">
+        <img src="https://github.com/user-attachments/assets/cb9137c7-484a-4c2c-ad0f-c33ef7a602bd" width=25% align="top">
         </a>
 
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/28a7d13e-4001-4bd0-822d-2e9b83374cc8">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/28a7d13e-4001-4bd0-822d-2e9b83374cc8" width=25% align="top">
+        <a href="https://github.com/user-attachments/assets/81c05e3f-599d-4cc1-9d9a-9748fce54763">
+        <img src="https://github.com/user-attachments/assets/81c05e3f-599d-4cc1-9d9a-9748fce54763" width=25% align="top">
         </a>
 
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/3fadc296-4e51-48d1-9454-f956e43f3ec7">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/3fadc296-4e51-48d1-9454-f956e43f3ec7" width=25% align="top">
+        <a href="https://github.com/user-attachments/assets/04b18116-2af0-4bd3-8438-e9f1fed8c7ed">
+        <img src="https://github.com/user-attachments/assets/04b18116-2af0-4bd3-8438-e9f1fed8c7ed" width=25% align="top">
         </a>
     </div>
 
@@ -246,8 +246,8 @@ Utiliser le bouton **+** pour ajouter une caméra.
 .. raw:: html
 
     <div align="center">
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/29ea957c-0e08-4897-b952-e0a7f591e3f8">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/29ea957c-0e08-4897-b952-e0a7f591e3f8" align="top"> 
+        <a href="https://github.com/user-attachments/assets/0413cb57-a87f-4779-87ca-7bcbe8e50fa5">
+        <img src="https://github.com/user-attachments/assets/0413cb57-a87f-4779-87ca-7bcbe8e50fa5" align="top"> 
         </a>
     </div> 
 
@@ -264,8 +264,8 @@ Si le besoin de modifier la configuration d'une caméra se fait sentir, il suffi
 .. raw:: html
 
     <div align="center">
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/42c5704e-0773-4b78-a302-3e277755e71a">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/42c5704e-0773-4b78-a302-3e277755e71a" align="top"> 
+        <a href="https://github.com/user-attachments/assets/42c09a68-b4d1-4950-aa8c-b5dbebf18f52">
+        <img src="https://github.com/user-attachments/assets/42c09a68-b4d1-4950-aa8c-b5dbebf18f52" align="top"> 
         </a>
     </div> 
 
@@ -323,14 +323,10 @@ Il est possible de configurer deux types de démarrages et arrêts automatiques 
 .. raw:: html
 
     <div align="center">
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/db76d399-3f3a-4118-a24d-3150fc0bfd03">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/db76d399-3f3a-4118-a24d-3150fc0bfd03" width=49% align="top"> 
+        <a href="https://github.com/user-attachments/assets/373219d1-588f-4097-80d4-e0b533115098">
+        <img src="https://github.com/user-attachments/assets/373219d1-588f-4097-80d4-e0b533115098" width=49% align="top"> 
         </a>
-
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/09c956f1-ed7a-4c2b-85e9-57824ed6f6ad">
-        <img src="https://github.com/lbr38/motion-UI/assets/54670129/09c956f1-ed7a-4c2b-85e9-57824ed6f6ad" width=49% align="top"> 
-        </a>
-    </div> 
+    </div>
 
     <br>
 
@@ -363,8 +359,8 @@ Configuration des créneaux horaires d'alertes
 .. raw:: html
 
     <div align="center">
-        <a href="https://github.com/lbr38/motion-UI/assets/54670129/b0e2164b-8f07-4850-8538-7b60cbab26d4">
-            <img src="https://github.com/lbr38/motion-UI/assets/54670129/b0e2164b-8f07-4850-8538-7b60cbab26d4" width=49% align="top"> 
+        <a href="https://github.com/user-attachments/assets/0dd3bc5b-71f4-46ac-8937-c928716987cb">
+            <img src="https://github.com/user-attachments/assets/0dd3bc5b-71f4-46ac-8937-c928716987cb" width=49% align="top"> 
         </a>
     </div>
 
