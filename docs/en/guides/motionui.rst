@@ -1,5 +1,5 @@
 =====================================================
-[Linux] - Video Surveillance with Motion and Motion-UI
+[Linux] - Video Surveillance with Motion-UI
 =====================================================
 
 **Motion-UI** is a web-based User Interface developed to facilitate the operation and configuration of **motion**, a popular open-source motion detection software commonly used for video surveillance.
@@ -104,6 +104,7 @@ Pull the latest available image and adapt the ``FQDN`` value to your domain name
     docker run -d --restart always --name motionui \
        -e FQDN=motionui.example.com \
        -p 8080:8080 \
+       -p 8555:8555 \
        -v /etc/localtime:/etc/localtime:ro \
        -v /var/lib/docker/volumes/motionui-data:/var/lib/motionui \
        -v /var/lib/docker/volumes/motionui-captures:/var/lib/motion \
@@ -204,6 +205,7 @@ Insert the following content, replacing the values:
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
+            proxy_read_timeout 86400;
             proxy_pass http://motionui_docker;
         }
     }
@@ -236,10 +238,9 @@ Adding a Camera
 
 Use the **+** button to add a camera.
 
-- Specify if the camera provides a **video stream** or just a **static image** that requires reloading (if yes, specify the refresh interval in seconds).
-- Provide a name and the URL to the camera's **video/image stream**.
-- Choose to enable motion detection on this camera. Note that if the selected stream is a static image, a second URL pointing to a video stream needs to be specified because motion is unable to perform motion detection on a stream of static images (it is not capable of automatically reloading the image).
+- Provide a name and the URL to the camera or the local device (/dev/video0, for example).
 - Specify a username/password if the stream is protected.
+- Choose to enable motion detection on this camera.
 
 .. raw:: html
 
@@ -250,9 +251,6 @@ Use the **+** button to add a camera.
     </div> 
 
     <br>
-
-Once the camera is added, motion-UI automatically creates the **motion configuration** for this camera. Note that the motion configuration created is relatively minimalistic but sufficient to work in all cases. It is possible to modify this configuration in advanced mode and add your own parameters if needed (see the **Camera Configuration** section).
-
 
 Camera Configuration
 --------------------
@@ -277,8 +275,8 @@ However, it is recommended to **avoid modifying motion parameters in advanced mo
 
 For example, **it is better to avoid** modifying the following parameters:
 
-- The name and URL parameters (**camera_name**, **netcam_url**, **netcam_userpass**, and **rotate**) have values that come from the general parameters of the camera. Therefore, it is best to modify them directly from the **Global settings** fields.
-- The parameters related to codecs (**picture_type** and **movie_codec**) should not be modified, or you may no longer be able to view the captures directly from motion-UI. 
+- The name and URL parameters (**device_name**, **netcam_url**, **netcam_userpass**, and **rotate**) have values that come from the general parameters of the camera. Therefore, it is best to modify them directly from the **Global settings** fields.
+- The parameters related to codecs (**picture_type** and **movie_container**) should not be modified, or you may no longer be able to view the captures directly from motion-UI. 
 - The event parameters (**on_event_start**, **on_event_end**, **on_movie_end**, and **on_picture_save**) should not be modified, or you may no longer be able to record motion detection events and receive alerts.
 
 

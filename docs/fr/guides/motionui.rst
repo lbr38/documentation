@@ -1,10 +1,10 @@
 =====================================================
-[Linux] - Video surveillance avec motion et motion-UI
+[Linux] - Vidéosurveillance avec Motion-UI
 =====================================================
 
 EN version : https://en.linuxdocs.net/en/latest/guides/motionui.html
 
-**Motion-UI** est une interface web (User Interface) développée pour gérer plus aisémment le fonctionnement et la configuration de **motion**, un célèbre logiciel **open-source** de détection de mouvement généralement utilisé pour faire de la vidéo surveillance.
+**Motion-UI** est une interface web (UI pour "User Interface") développée pour gérer plus aisément le fonctionnement et la configuration de **motion**, un célèbre logiciel **open-source** de détection de mouvement généralement utilisé pour faire de la vidéosurveillance.
 
 Il s'agit d'un projet open-source disponible sur github : https://github.com/lbr38/motion-UI
 
@@ -13,7 +13,7 @@ Présentation
 
 L'interface se présente comme étant très simpliste et **responsive**, ce qui permet une utilisation depuis un **mobile** (application android disponible ici : https://github.com/lbr38/motion-UI/releases/tag/android-1.0).
 
-Elle permet en outre de mettre en place des **alertes mail** en cas de détection et **d'activer automatiquement** ou non la vidéo-surveillance en fonction d'une plage horaire ou de la présence de périphériques "de confiance" sur le réseau local (smartphone...).
+Elle permet en outre de mettre en place des **alertes mail** en cas de détection et **d'activer automatiquement** ou non la vidéosurveillance en fonction d'une plage horaire ou de la présence de périphériques "de confiance" sur le réseau local (smartphone...).
 
 .. raw:: html
 
@@ -50,7 +50,7 @@ Elle permet en outre de mettre en place des **alertes mail** en cas de détectio
 
 L'interface se décompose en plusieurs onglets :
 
-- Un onglet dédié aux caméras et au **stream** en direct. Les caméras sont alors disposées en grilles à l'écran (du moins sur un écran PC) un peu à la manière des écrans de vidéo-surveillance d'un établissement par exemple.
+- Un onglet dédié aux caméras et au **stream** en direct. Les caméras sont alors disposées en grilles à l'écran (du moins sur un écran PC) un peu à la manière des écrans de vidéosurveillance d'un établissement par exemple.
 - Un onglet permettant de démarrer et arrêter le service **motion** et les services associés (**démarrage automatique**, **alertes** en cas de détection).
 - Un onglet listant les **évènements** (events) aillant eu lieu et détectés par motion, avec également la possibilité de visualiser les images ou vidéos capturées directement depuis la page web.
 - Un onglet avec quelques graphiques permettent de résumer l'activité récente du service motion et des évènements aillant eu lieu.
@@ -59,7 +59,7 @@ L'interface se décompose en plusieurs onglets :
 Pré-requis
 ----------
 
-Il est préconisé de dédier un serveur uniquement à l'exécution de **motion-UI**, et qu'il soit le point d'entrée unique pour la vidéo-surveillance sur le réseau local : les caméras diffusent leur stream au serveur et c'est le serveur qui analyse les images et détecte d'éventuels mouvements et avertit l'utilisateur. La visualisation des caméras se fait également par le biais du serveur depuis l'interface **motion-UI**. C'est ce cas de figure qui sera détaillé ici.
+Il est préconisé de dédier un serveur uniquement à l'exécution de **motion-UI**, et qu'il soit le point d'entrée unique pour la vidéosurveillance sur le réseau local : les caméras diffusent leur stream au serveur et c'est le serveur qui analyse les images et détecte d'éventuels mouvements et avertit l'utilisateur. La visualisation des caméras se fait également par le biais du serveur depuis l'interface **motion-UI**. C'est ce cas de figure qui sera détaillé ici.
 
 L'installation doit se faire en **root** ou avec **sudo**.
 
@@ -106,6 +106,7 @@ Installer la dernière image disponible en adaptant la valeur de ``FQDN`` par vo
     docker run -d --restart always --name motionui \
        -e FQDN=motionui.example.com \
        -p 8080:8080 \
+       -p 8555:8555 \
        -v /etc/localtime:/etc/localtime:ro \
        -v /var/lib/docker/volumes/motionui-data:/var/lib/motionui \
        -v /var/lib/docker/volumes/motionui-captures:/var/lib/motion \
@@ -206,6 +207,7 @@ Insérer le contenu suivant en remplacant les valeurs :
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
+            proxy_read_timeout 86400;
             proxy_pass http://motionui_docker;
         }
     }
@@ -238,10 +240,9 @@ Ajout d'une caméra
 
 Utiliser le bouton **+** pour ajouter une caméra.
 
-- Préciser si la caméra diffuse un **flux video** ou seulement une **image statique** qui nécessite un rechargement (si oui préciser l'intervalle de rafraîchissement en secondes).
-- Préciser alors un nom et l'URL vers le **flux video/image** de la caméra
-- Choisir d'activer la détection de mouvement (motion) sur cette caméra. Attention si le flux sélectionné est une image statique alors il faudra préciser une seconde URL pointant vers un flux video car motion est incapable de faire de la détection de mouvement sur un flux d'images statiques (il n'est pas capable de recharger automatiquement l'image).
+- Préciser un nom et l'URL de la caméra ou le nom du périphérique local (/dev/video0 par exemple).
 - Préciser un utilisateur / mot de passe si le flux est protégé.
+- Choisir d'activer ou non la détection de mouvement (motion) sur cette caméra.
 
 .. raw:: html
 
@@ -252,9 +253,6 @@ Utiliser le bouton **+** pour ajouter une caméra.
     </div> 
 
     <br>
-
-Une fois la camera ajoutée, motion-UI se charge de créer automatiquement la **configuration motion** pour cette caméra. A noter que la configuration motion créée est relativement minimaliste mais suffisante pour fonctionner dans tous les cas. Il est possible de modifier cette configuration en mode avancé et d'ajouter ses propres paramètres si besoin (voir partie **Configuration d'une caméra**).
-
 
 Configuration d'une caméra
 --------------------------
@@ -279,8 +277,8 @@ Attention, il est préconisé d'**éviter de modifier les paramètres motion en 
 
 Par exemple **il vaut mieux éviter** de modifier les paramètres suivants :
 
-- les paramètres de nom et d'URL (**camera_name**, **netcam_url**, **netcam_userpass** et **rotate**) ont des valeurs issues des paramètres généraux de la caméra. Il convient donc de les modifier directement depuis les champs **Global settings**.
-- les paramètres liés aux codecs (**picture_type** et **movie_codec**) ne doivent pas être modifiés sous peine de ne plus pouvoir visualier les captures directement depuis motion-UI. 
+- les paramètres de nom et d'URL (**device_name**, **netcam_url**, **netcam_userpass** et **rotate**) ont des valeurs issues des paramètres généraux de la caméra. Il convient donc de les modifier directement depuis les champs **Global settings**.
+- les paramètres liés aux codecs (**picture_type** et **movie_container**) ne doivent pas être modifiés sous peine de ne plus pouvoir visualier les captures directement depuis motion-UI. 
 - les paramètres d'évènements (**on_event_start**, **on_event_end**, **on_movie_end** et **on_picture_save**) ne doivent pas être modifiés sous peine de ne plus pouvoir enregistrer les évènements de détection de mouvement, et de ne plus recevoir d'alertes.
 
 
