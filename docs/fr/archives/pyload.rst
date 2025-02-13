@@ -2,6 +2,13 @@
 [Linux] - Pyload un gestionnaire de téléchargement en python
 ==================================================
 
+.. raw:: html
+
+    <div>
+        <img src="https://raw.githubusercontent.com/lbr38/motion-UI/refs/heads/devel/www/public/assets/icons/warning.svg" width=20px align="top"> <span><b>Contenu archivé : cette page n'est plus maintenue et peut contenir des informations obsolètes.</b></span>
+    </div>
+    <br>
+
 .. image:: https://raw.githubusercontent.com/lbr38/documentation/main/docs/images/pyload/pyload.png
 
 **Pyload** est un gestionnaire de téléchargement direct (à l’instar de **Jdownloader**) développé en **python**.

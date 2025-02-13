@@ -2,6 +2,13 @@
 [Raspberry Pi] - Advanced Video Surveillance with ustreamer and motion/motion-UI
 ==============================================================================
 
+.. raw:: html
+
+    <div>
+        <img src="https://raw.githubusercontent.com/lbr38/motion-UI/refs/heads/devel/www/public/assets/icons/warning.svg" width=20px align="top"> <span><b>Archived content: this page is no longer maintained and may contain inaccurate information.</b></span>
+    </div>
+    <br>
+
 Introduction
 ============
 
