@@ -101,10 +101,8 @@ Pull the latest available image and adapt the ``FQDN`` value to your domain name
 
 .. code-block:: shell
 
-    docker run -d --restart always --name motionui \
+    docker run -d --restart unless-stopped --name motionui --network=host \
        -e FQDN=motionui.example.com \
-       -p 8080:8080 \
-       -p 8555:8555 \
        -v /etc/localtime:/etc/localtime:ro \
        -v /var/lib/docker/volumes/motionui-data:/var/lib/motionui \
        -v /var/lib/docker/volumes/motionui-captures:/var/lib/motion \
@@ -233,7 +231,7 @@ Once logged in, you can change your password from the user area (top right).
 
 
 
-Adding a Camera
+Adding a camera
 ---------------
 
 Use the **+** button to add a camera.
@@ -252,7 +250,7 @@ Use the **+** button to add a camera.
 
     <br>
 
-Camera Configuration
+Camera configuration
 --------------------
 
 If there is a need to modify the configuration of a camera, simply click on the **Configure** button.
@@ -280,7 +278,7 @@ For example, **it is better to avoid** modifying the following parameters:
 - The event parameters (**on_event_start**, **on_event_end**, **on_movie_end**, and **on_picture_save**) should not be modified, or you may no longer be able to record motion detection events and receive alerts.
 
 
-Testing Event Recording
+Testing event recording
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 To do this from the **motion-UI** interface: manually start motion (button **Start capture**).
@@ -298,7 +296,7 @@ Then **make a movement** in front of a camera to trigger an event.
 If everything goes well, a new ongoing event should appear after a few seconds in the **motion-UI** interface.
 
 
-Automatic Start and Stop of Motion
+Automatic start and stop of Motion
 ----------------------------------
 
 Use the **Enable and configure autostart** button to activate and configure automatic startup.
@@ -327,7 +325,7 @@ There are two types of automatic startups and shutdowns of motion that can be co
     <br>
 
 
-Configure Alerts
+Configure alerts
 ----------------
 
 Use the **Enable and configure alerts** button to activate and configure alerts.
@@ -346,7 +344,7 @@ Configuring alerts requires two configuration points:
 - Event recording must be functional (see '**Testing Event Recording**').
 
 
-Configuration of Alert Time Slots
+Configuration of alert time slots
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - Fill in the **time slots** during which you wish to **receive alerts** if there is any motion detection. To enable alerts for the **entire day**, you should enter 00:00 for both the start and end time slots.
@@ -363,7 +361,7 @@ Configuration of Alert Time Slots
     <br>
 
 
-Testing Alerts
+Testing alerts
 ~~~~~~~~~~~~~~
 
 Once the previously mentioned points have been properly configured, and the **motionui** service is running, you can test the sending of alerts.
@@ -379,6 +377,21 @@ If you encounter any issues, feel free to ask a **question** on the developer's 
 
 - https://github.com/lbr38/motion-UI/discussions
 - https://github.com/lbr38/motion-UI/issues
+
+
+External access
+
+To access motion-UI from outside, two options are possible:
+
+**Option 1** (VPN) (recommended):
+
+- Set up a VPN to access your local network from outside.
+
+**Option 2** (Port forwarding from the router):
+
+- Point the domain name dedicated to motion-UI to your router.
+- Forward ports 80, 443, and 8555 (the latter is necessary to view the live stream) from your router to the motion-UI server.
+- Set up firewall rules to restrict access to motion-UI from outside only to trusted IP addresses.
 
 
 .. raw:: html

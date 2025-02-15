@@ -103,10 +103,8 @@ Installer la dernière image disponible en adaptant la valeur de ``FQDN`` par vo
 
 ..  code-block:: shell
 
-    docker run -d --restart always --name motionui \
+    docker run -d --restart unless-stopped --name motionui --network=host \
        -e FQDN=motionui.example.com \
-       -p 8080:8080 \
-       -p 8555:8555 \
        -v /etc/localtime:/etc/localtime:ro \
        -v /var/lib/docker/volumes/motionui-data:/var/lib/motionui \
        -v /var/lib/docker/volumes/motionui-captures:/var/lib/motion \
@@ -232,7 +230,6 @@ Utiliser les identifiants par défaut pour s'authentifier :
 - Mot de passe : **motionui**
 
 Une fois connecté, il est possible de modifier son mot de passe depuis l'espace utilisateur (en haut à droite).
-
 
 
 Ajout d'une caméra
@@ -381,6 +378,23 @@ Pour tout problème, n'hésitez pas à poser une **question** sur le dépôt du 
 
 - https://github.com/lbr38/motion-UI/discussions
 - https://github.com/lbr38/motion-UI/issues
+
+
+Accès depuis l'extérieur
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Pour accéder à motion-UI depuis l'exterieur, deux options sont possibles : 
+
+**Option 1** (VPN) (recommandé) :
+
+- Mettre en place un VPN pour accéder à votre réseau local depuis l'extérieur.
+
+**Option 2** (Redirection de port depuis le routeur/box) :
+
+- Faire pointer le nom de domaine dédié à motion-UI vers votre box/routeur.
+- Rediriger les ports ``80``, ``443`` et ``8555`` (ce dernier est nécessaire pour visonner le flux en direct) de votre routeur vers le serveur motion-UI.
+- Mettre en place des règles de pare-feu pour restreindre l'accès à motion-UI depuis l'extérieur uniquement à des adresses IP de confiance.
+
 
 .. raw:: html
 
