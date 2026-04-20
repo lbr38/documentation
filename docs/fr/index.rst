@@ -16,6 +16,7 @@ linuxdocs.net
    NAS et nextcloud perso sur Odroid XU4 <guides/nas-odroid-xu4>
    Accéder au disque dur de la Freebox <guides/freebox>
    Vidéosurveillance avec Motion-UI <guides/motionui>
+   Repomanager, gestionnaire de dépôts deb/rpm <guides/repomanager>
    Certificat Let's Encrypt avec getssl <guides/getssl>
 
 .. toctree::
