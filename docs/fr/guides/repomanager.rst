@@ -1,6 +1,6 @@
-=============================================
-[Linux] - Repomanager, gestionnaire de dépôts
-=============================================
+================================================================
+[Linux] - Créer facilement des repos deb et rpm avec Repomanager
+================================================================
 
 .. raw:: html
 
@@ -31,10 +31,12 @@ L'objectif est de fiabiliser les déploiements et de mieux maîtriser ce qui est
 .. raw:: html
 
     <div align="center">
-        <a href="https://assets.repomanager.net/repomanager/index/demo.gif">
-        <img src="https://assets.repomanager.net/repomanager/index/demo.gif" align="top"> 
+        <a href="https://assets.repomanager.net/repomanager/6.0.0/index/demo.webm">
+            <video align="top" autoplay loop muted width="100%">
+                <source src="https://assets.repomanager.net/repomanager/6.0.0/index/demo.webm" type="video/webm">
+            </video>
         </a>
-    </div> 
+    </div>
 
     <br>
 
@@ -53,42 +55,42 @@ Fonctionnalités principales
 .. raw:: html
 
     <div align="center">
-        <a href="https://assets.repomanager.net/repomanager/index/index-1.png">
-        <img src="https://assets.repomanager.net/repomanager/index/index-1.png" align="top"> 
+        <a href="https://assets.repomanager.net/repomanager/6.0.0/index/index-1.png">
+        <img src="https://assets.repomanager.net/repomanager/6.0.0/index/index-1.png" align="top"> 
         </a>
-    </div> 
+    </div>
 
     <br>
 
     <div align="center">
-        <a href="https://assets.repomanager.net/repomanager/index/index-2.png">
-        <img src="https://assets.repomanager.net/repomanager/index/index-2.png" align="top"> 
+        <a href="https://assets.repomanager.net/repomanager/6.0.0/index/index-2.png">
+        <img src="https://assets.repomanager.net/repomanager/6.0.0/index/index-2.png" align="top"> 
         </a>
-    </div> 
+    </div>
 
     <br>
 
     <div align="center">
-        <a href="https://assets.repomanager.net/repomanager/index/index-3.png">
-        <img src="https://assets.repomanager.net/repomanager/index/index-3.png" align="top"> 
+        <a href="https://assets.repomanager.net/repomanager/6.0.0/index/index-3.png">
+        <img src="https://assets.repomanager.net/repomanager/6.0.0/index/index-3.png" align="top"> 
         </a>
-    </div> 
+    </div>
 
     <br>
 
     <div align="center">
-        <a href="https://assets.repomanager.net/repomanager/index/index-4.png">
-        <img src="https://assets.repomanager.net/repomanager/index/index-4.png" align="top"> 
+        <a href="https://assets.repomanager.net/repomanager/6.0.0/index/index-4.png">
+        <img src="https://assets.repomanager.net/repomanager/6.0.0/index/index-4.png" align="top"> 
         </a>
-    </div> 
+    </div>
 
     <br>
 
     <div align="center">
-        <a href="https://assets.repomanager.net/repomanager/index/index-5.png">
-        <img src="https://assets.repomanager.net/repomanager/index/index-5.png" align="top"> 
+        <a href="https://assets.repomanager.net/repomanager/6.0.0/index/index-5.png">
+        <img src="https://assets.repomanager.net/repomanager/6.0.0/index/index-5.png" align="top"> 
         </a>
-    </div> 
+    </div>
 
     <br>
 

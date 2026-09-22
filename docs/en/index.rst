@@ -13,7 +13,7 @@ linuxdocs.net
    :caption: GENERIC GUIDES
 
    Video Surveillance with Motion-UI <guides/motionui>
-   Repomanager, deb/rpm repository manager <guides/repomanager>
+   Easily create deb and rpm repositories with Repomanager <guides/repomanager>
 
 .. toctree::
    :maxdepth: 1
